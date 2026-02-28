@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekt: Sdílení souborů (NFS) a přístupová práva</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --header-bg: #0f172a;
+            --header-text: #f8fafc;
+            --code-bg: #e2e8f0;
+            --accent: #0284c7;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 20px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
+
+        section {
+            padding: 2rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            color: var(--accent);
+            border-left: 4px solid var(--accent);
+            padding-left: 10px;
+        }
+
+        h3 {
+            margin-top: 1.5rem;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            color: #b91c1c;
+        }
+
+        pre code {
+            color: #1e293b;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Sdílení souborů (NFS) a přístupová práva</h1>
+        <p>Praktikum komunikačních sítí 1 | Prezentace projektu č.1</p>
+    </header>
+
+    <main>
+        <section id="teorie">
+            <h2>1. Teoretická část</h2>
+            
+            <h3>Co je to NFS?</h3>
+            <p><strong>NFS (Network File System)</strong> je distribuovaný systém souborů původně vyvinutý společností Sun Microsystems v roce 1984. Umožňuje uživateli na klientském počítači přistupovat k souborům přes síť stejným způsobem, jako by přistupoval k lokálnímu úložišti. Pro komunikaci využívá protokol RPC (Remote Procedure Call) a standardně naslouchá na portu 2049.</p>
+            
+            <h3>Přístupová práva v Linuxu</h3>
+            <p>Přístupová práva určují, kdo může soubor číst (<code>r</code>), upravovat (<code>w</code>) nebo spouštět (<code>x</code>). Práva se dělí do tří kategorií:</p>
+            <ul>
+                <li><strong>Vlastník (User):</strong> Uživatel, kterému soubor patří.</li>
+                <li><strong>Skupina (Group):</strong> Skupina uživatelů sdílející stejná práva.</li>
+                <li><strong>Ostatní (Others):</strong> Všichni ostatní uživatelé v systému.</li>
+            </ul>
+            <p>V kontextu NFS je klíčový koncept tzv. <strong>Root Squashing</strong>. Pokud se klient připojí jako uživatel <code>root</code>, NFS server jeho práva standardně omezí (přemění ho na anonymního uživatele <code>nobody</code>), aby se zabránilo bezpečnostním rizikům.</p>
+        </section>
+
+        <section id="konfigurace">
+            <h2>2. Konfigurační část</h2>
+            <p>Níže jsou uvedeny kroky potřebné ke zprovoznění NFS serveru a připojení klienta na OS Ubuntu/Debian.</p>
+
+            <h3>Nastavení NFS Serveru</h3>
+            <p>1. Instalace potřebných balíčků:</p>
+            <pre><code>sudo apt update
+sudo apt install nfs-kernel-server</code></pre>
+
+            <p>2. Vytvoření sdílené složky a nastavení práv (chown/chmod):</p>
+            <pre><code>sudo mkdir -p /var/nfs/sdilena_slozka
+sudo chown nobody:nogroup /var/nfs/sdilena_slozka
+sudo chmod 777 /var/nfs/sdilena_slozka</code></pre>
+
+            <p>3. Konfigurace exportů (úprava souboru <code>/etc/exports</code>):</p>
+            <pre><code>/var/nfs/sdilena_slozka    192.168.1.0/24(rw,sync,no_subtree_check)</code></pre>
+            <p><em>Vysvětlivky: <code>rw</code> (čtení/zápis), <code>sync</code> (zápis na disk před odpovědí), <code>no_subtree_check</code> (zrychluje proces vypnutím kontroly podstromu).</em></p>
+
+            <p>4. Restart služby a aplikace změn:</p>
+            <pre><code>sudo systemctl restart nfs-kernel-server
+sudo exportfs -a</code></pre>
+
+            <h3>Nastavení NFS Klienta</h3>
+            <p>1. Instalace klienta a vytvoření přípojného bodu:</p>
+            <pre><code>sudo apt install nfs-common
+sudo mkdir -p /mnt/nfs_klient</code></pre>
+
+            <p>2. Připojení (Mount) sdílené složky ze serveru:</p>
+            <pre><code>sudo mount 192.168.1.100:/var/nfs/sdilena_slozka /mnt/nfs_klient</code></pre>
+        </section>
+
+
+	<section id="galerie">
+            <h2>3. Praktická ukázka</h2>
+            <p>Níže je zdokumentován reálný průběh nastavení NFS serveru (Ubuntu) a připojení klientského zařízení s ověřením zápisu a přístupových práv.</p>
+            
+            <h3>1. Příprava složky a nastavení práv (Server)</h3>
+            <img src="screen1.png" alt="Příprava složky na serveru" style="max-width: 100%; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1.5rem;">
+            
+            <h3>2. Připojení klienta přes IPv6 a odeslání souboru (Klient)</h3>
+            <img src="screen2.png" alt="Připojení NFS klienta" style="max-width: 100%; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1.5rem;">
+            
+            <h3>3. Ověření úspěšného přenosu dat (Server)</h3>
+            <img src="screen3.png" alt="Ověření dat na serveru" style="max-width: 100%; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1.5rem;">
+            
+            <h3>4. Výpis přístupových práv k přenesenému souboru (Server)</h3>
+            <img src="screen4.png" alt="Výpis práv souboru" style="max-width: 100%; border: 1px solid #ccc; border-radius: 5px;">
+        </section>
+
+        <section id="literatura">
+            <h2>4. Studijní literatura a zdroje</h2>
+            <ul>
+                <li><a href="https://ubuntu.com/server/docs/service-nfs" target="_blank">Oficiální dokumentace Ubuntu Server - NFS</a></li>
+                <li><a href="https://wiki.debian.org/NFS" target="_blank">Debian Wiki - Network File System</a></li>
+                <li><a href="https://datatracker.ietf.org/doc/html/rfc7530" target="_blank">RFC 7530 - NFS Version 4 Protocol</a></li>
+                <li>Základy Linuxu: Manuálové stránky (<code>man nfs</code>, <code>man exports</code>, <code>man chmod</code>).</li>
+            </ul>
+        </section>
+    </main>
+
+
+    <footer>
+        <p>Maxmilián Babič</p>
+    </footer>
+
+</body>
+</html>
