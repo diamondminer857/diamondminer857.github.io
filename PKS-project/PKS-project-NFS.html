@@ -136,12 +136,12 @@
 sudo apt install nfs-kernel-server</code></pre>
 
             <p>2. Vytvoření sdílené složky a nastavení práv (chown/chmod):</p>
-            <pre><code>sudo mkdir -p /var/nfs/sdilena_slozka
-sudo chown nobody:nogroup /var/nfs/sdilena_slozka
-sudo chmod 777 /var/nfs/sdilena_slozka</code></pre>
+            <pre><code>sudo mkdir -p /var/nfs/shared_folder
+sudo chown nobody:nogroup /var/nfs/shared_folder
+sudo chmod 777 /var/nfs/shared_folder</code></pre>
 
             <p>3. Konfigurace exportů (úprava souboru <code>/etc/exports</code>):</p>
-            <pre><code>/var/nfs/sdilena_slozka    192.168.1.0/24(rw,sync,no_subtree_check)</code></pre>
+            <pre><code>/var/nfs/shared_folder   *rw,sync,no_subtree_check</code></pre>
             <p><em>Vysvětlivky: <code>rw</code> (čtení/zápis), <code>sync</code> (zápis na disk před odpovědí), <code>no_subtree_check</code> (zrychluje proces vypnutím kontroly podstromu).</em></p>
 
             <p>4. Restart služby a aplikace změn:</p>
@@ -151,10 +151,10 @@ sudo exportfs -a</code></pre>
             <h3>Nastavení NFS Klienta</h3>
             <p>1. Instalace klienta a vytvoření přípojného bodu:</p>
             <pre><code>sudo apt install nfs-common
-sudo mkdir -p /mnt/nfs_klient</code></pre>
+sudo mkdir -p /mnt/shared_folder</code></pre>
 
             <p>2. Připojení (Mount) sdílené složky ze serveru:</p>
-            <pre><code>sudo mount 192.168.1.100:/var/nfs/sdilena_slozka /mnt/nfs_klient</code></pre>
+            <pre><code>sudo mount [server_ip]:/var/nfs/shared_folder /mnt/shared_folder</code></pre>
         </section>
 
 
