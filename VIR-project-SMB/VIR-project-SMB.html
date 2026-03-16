@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekt - Virtualizace 1</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f4f7f6; }
+        header { background-color: #2c3e50; color: white; padding: 30px 20px; text-align: center; border-radius: 8px; margin-bottom: 30px; }
+        h1 { margin: 0; font-size: 2.2em; }
+        .subtitle { font-size: 1.1em; opacity: 0.9; margin-top: 10px; }
+        h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 30px; }
+        h3 { color: #34495e; margin-top: 25px; }
+        .section { background: white; padding: 30px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        code { background: #f8f9fa; padding: 3px 6px; border-radius: 4px; font-family: Consolas, monospace; color: #e83e8c; border: 1px solid #e9ecef; }
+        pre { background: #2b2b2b; color: #f8f8f2; padding: 20px; border-radius: 8px; overflow-x: auto; font-family: Consolas, monospace; font-size: 0.95em; line-height: 1.4; }
+        .screenshot { width: 100%; border: 1px solid #ddd; border-radius: 8px; margin-top: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        .img-caption { text-align: center; font-size: 0.9em; color: #666; margin-top: 5px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Projekt: Služba SMB v systémových kontejnerech</h1>
+        <div class="subtitle">Předmět: Virtualizace 1 | Vypracoval: Maxmilián Babič</div>
+    </header>
+
+    <div class="section">
+        <h2>1. Úvod a cíl projektu</h2>
+        <p>Cílem tohoto projektu bylo navrhnout a implementovat infrastrukturu založenou na systémových kontejnerech (LXC/LXD), která poskytuje sdílené síťové úložiště pomocí protokolu SMB (Samba). Architektura plní následující požadavky zadání:</p>
+        <ul>
+            <li>Nasazení systémových kontejnerů na platformě Ubuntu 24.04.</li>
+            <li>Oddělení dat (úložiště) od samotné aplikační služby (SMB server).</li>
+            <li>Vytvoření 5 uživatelů rozdělených do dvou logických skupin s odlišnými přístupovými právy.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>2. Architektura řešení</h2>
+        <p>Infrastruktura je navržena s ohledem na bezpečnost a výkon. Byla využita nativní funkcionalita LXD pro sdílení blokových zařízení (Bind Mount), která umožňuje sdílet datový adresář přímo do kontejneru bez nutnosti mezivrstvy v podobě síťových protokolů.</p>
+        <ul>
+            <li><strong>Hostitelský server:</strong> Poskytuje fyzické úložiště (<code>/srv/projekt_data</code>).</li>
+            <li><strong>SMB Kontejner (smb-server):</strong> Běží v něm služba Samba, obsahuje databázi uživatelů a řídí oprávnění pro přístup k namountované složce (<code>/mnt/storage</code>).</li>
+            <li><strong>Skupiny a práva:</strong> Skupina <code>vedeni</code> má práva pro čtení i zápis, skupina <code>praxe</code> má oprávnění pouze pro čtení.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>3. Postup realizace</h2>
+
+        <h3>A. Příprava datového úložiště a kontejneru</h3>
+        <p>Vytvoření sdílené složky na hostiteli a její namapování do nově vytvořeného kontejneru.</p>
+        <pre><code>sudo mkdir -p /srv/projekt_data
+sudo chmod 777 /srv/projekt_data
+
+lxc launch ubuntu:24.04 smb-server
+lxc config device add smb-server spolecne_data disk source=/srv/projekt_data path=/mnt/storage</code></pre>
+
+        <h3>B. Instalace služeb a správa uživatelů</h3>
+        <p>Následující příkazy byly provedeny uvnitř kontejneru <code>smb-server</code>. Zahrnují vytvoření skupin, uživatelů bez shell přístupu (pro vyšší bezpečnost) a nastavení SMB hesel.</p>
+        <pre><code>apt update && apt install samba acl -y
+
+groupadd vedeni && groupadd praxe
+
+useradd -M -s /usr/sbin/nologin sef
+useradd -M -s /usr/sbin/nologin reditel
+useradd -M -s /usr/sbin/nologin student1
+useradd -M -s /usr/sbin/nologin student2
+useradd -M -s /usr/sbin/nologin student3
+
+usermod -aG vedeni sef && usermod -aG vedeni reditel
+usermod -aG praxe student1 && usermod -aG praxe student2 && usermod -aG praxe student3
+
+for u in sef reditel student1 student2 student3; do (echo "heslo123"; echo "heslo123") | smbpasswd -s -a $u; done</code></pre>
+
+        <h3>C. Konfigurace Samby a oprávnění</h3>
+        <p>Nastavení linuxových práv na připojené složce a definice sdílení v konfiguračním souboru Samby.</p>
+        <pre><code>chown root:vedeni /mnt/storage
+chmod 775 /mnt/storage
+
+cat &lt;&lt;EOF &gt;&gt; /etc/samba/smb.conf
+[Projekt_Data]
+path = /mnt/storage
+valid users = @vedeni, @praxe
+write list = @vedeni
+read list = @praxe
+force group = vedeni
+EOF
+
+systemctl restart smbd</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>4. Ověření funkčnosti</h2>
+        <p>Níže jsou uvedeny výstupy, které prokazují úspěšné nasazení infrastruktury a správné fungování přístupových práv.</p>
+
+        <h3>1. Výpis běžících kontejnerů a mapování disků</h3>
+        <img src="lxc.png" alt="Výpis kontejnerů" class="screenshot">
+        <div class="img-caption">Běžící kontejner smb-server s namountovaným úložištěm.</div>
+
+        <h3>2. Výpis databáze uživatelů Samby</h3>
+        <img src="uzivatele.png" alt="Databáze uživatelů Samby" class="screenshot">
+        <div class="img-caption">Vytvořených 5 uživatelů v databázi služby SMB.</div>
+
+        <h3>3. Status služby SMB</h3>
+        <img src="status.png" alt="Status služby SMB" class="screenshot">
+        <div class="img-caption">Služba smbd je aktivní a naslouchá požadavkům.</div>
+
+        <h3>4. Ověření přístupových práv (Odepření přístupu)</h3>
+        <img src="prava.png" alt="Ověření oprávnění" class="screenshot">
+        <div class="img-caption">Test prokazující, že uživatelé ze skupiny "praxe" nemohou do sdílené složky zapisovat (NT_STATUS_ACCESS_DENIED).</div>
+    </div>
+
+</body>
+</html>
