@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IPTV | Digitální televizní vysílání</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">📡</span> DTV Projekt
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Úvod</a></li>
+        <li class="nav-dropdown">
+          <a href="#">Technologie</a>
+          <div class="dropdown-menu">
+            <a href="dvb-t.html">DVB-T / DVB-T2</a>
+            <a href="dvb-s.html">DVB-S / DVB-S2</a>
+            <a href="dvb-c.html">DVB-C</a>
+            <a href="dvb-h.html">DVB-H</a>
+            <a href="iptv.html">IPTV</a>
+          </div>
+        </li>
+        <li><a href="multiplexy.html">Multiplexy</a></li>
+        <li><a href="srovnani.html">Srovnání</a></li>
+        <li><a href="nazor.html">Vlastní názor</a></li>
+        <li><a href="zdroje.html">Zdroje</a></li>
+      </ul>
+      <button class="nav-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+
+      <div class="page-header">
+        <div class="breadcrumb"><a href="index.html">Úvod</a> / Technologie / IPTV</div>
+        <h1>IPTV</h1>
+        <p class="subtitle">Televizní vysílání prostřednictvím IP sítí</p>
+      </div>
+
+      <div class="spec-grid">
+        <div class="spec-item">
+          <div class="spec-label">Typ přenosu</div>
+          <div class="spec-value">IP síť (internet)</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Protokol</div>
+          <div class="spec-value">Unicast / Multicast</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Směr komunikace</div>
+          <div class="spec-value">Obousměrný</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Typický kodek</div>
+          <div class="spec-value">H.264 / H.265</div>
+        </div>
+      </div>
+
+      <h2>Co je IPTV</h2>
+
+      <p>IPTV (Internet Protocol Television) označuje technologii distribuce televizního obsahu prostřednictvím datových sítí založených na protokolu IP (Internet Protocol). Na rozdíl od tradičních způsobů šíření televizního signálu (terestrické, satelitní, kabelové vysílání), které využívají specializované radiofrekvenční nebo kabelové infrastruktury, IPTV přenáší audiovizuální obsah jako datové pakety po IP síti — ať už ve vnitřní síti operátora, nebo přes veřejný internet.</p>
+
+      <p>Je důležité rozlišovat mezi IPTV v užším slova smyslu (řízenou službou provozovanou v síti telekomunikačního operátora s garantovanou kvalitou služby) a OTT (Over-The-Top) službami, jako jsou Netflix, HBO Max nebo Voyo, které využívají veřejný internet bez garance kvality. Obě kategorie spadají pod širší pojem „televizní vysílání přes IP sítě", ale technicky se významně liší.</p>
+
+      <h2>Principy přenosu</h2>
+
+      <h3>Unicast</h3>
+
+      <p>Unicast je režim přenosu, kdy je pro každého diváka vytvořen samostatný datový tok od serveru k přijímači. To umožňuje maximální flexibilitu — každý divák může sledovat jiný obsah nezávisle na ostatních. Unicast je typický pro služby typu Video on Demand (VoD) a pro OTT platformy. Nevýhodou je vysoká zátěž na síť a servery při velkém počtu současně sledujících diváků, protože každý uživatel generuje vlastní datový tok.</p>
+
+      <h3>Multicast</h3>
+
+      <p>Multicast je efektivnější způsob přenosu pro lineární (živé) vysílání. Datový tok pro daný televizní kanál je vysílán sítí pouze jednou a na příslušných síťových prvcích (routerech, switchích) je duplikován a doručen všem divákům, kteří o daný kanál projevili zájem. Multicast výrazně šetří kapacitu sítě — nezáleží na tom, zda daný kanál sleduje 10 nebo 10 000 diváků, datový tok na páteřní síti je stále stejný.</p>
+
+      <p>Pro správu multicastových skupin se používá protokol IGMP (Internet Group Management Protocol). Když divák přepne na jiný kanál, jeho přijímač odešle IGMP Leave zprávu pro aktuální kanál a IGMP Join zprávu pro nový kanál. Síťový prvek (router nebo switch) poté přestane doručovat data starého kanálu a začne doručovat data nového kanálu danému přijímači.</p>
+
+      <h2>Architektura IPTV systému</h2>
+
+      <p>Typický IPTV systém se skládá z několika komponent. Na straně poskytovatele je headend, kde se přijímají signály z různých zdrojů (satelit, terestrické vysílání, vlastní produkce), konvertují do IP formátu a komprimují vhodným kodekem. Odtud putuje signál přes páteřní síť a distribuční síť až k přijímači na straně diváka.</p>
+
+      <p>Klíčovou komponentou je middleware — softwarová platforma, která řídí celý systém a zprostředkovává interakci mezi divákem a službou. Middleware zajišťuje elektronického programového průvodce (EPG), správu uživatelských účtů, podmíněný přístup (CA), služby VoD, nahrávání pořadů a další funkce.</p>
+
+      <p>Na straně diváka je set-top box (STB) nebo chytrý televizor s aplikací poskytovatele. STB dekóduje přijatý signál, zpracovává DRM (Digital Rights Management) ochranu a zobrazuje obsah na televizní obrazovce. Moderní IPTV služby umožňují příjem i na dalších zařízeních — mobilních telefonech, tabletech, počítačích nebo streamovacích zařízeních (Apple TV, Fire TV Stick apod.).</p>
+
+      <h2>Služby IPTV</h2>
+
+      <p>Oproti tradičním způsobům šíření televizního signálu nabízí IPTV díky obousměrné komunikaci celou řadu pokročilých služeb:</p>
+
+      <ul>
+        <li><strong>Lineární vysílání (Live TV)</strong> — Klasické živé televizní vysílání v reálném čase, ekvivalent tradičního DVB vysílání.</li>
+        <li><strong>Video on Demand (VoD)</strong> — Obsah na vyžádání. Divák si vybere z katalogu filmů, seriálů nebo dokumentů a může je sledovat kdykoliv. Obsah je doručován unicastem.</li>
+        <li><strong>Time-shifted TV (TSTV)</strong> — Možnost pozastavit, přetočit zpět nebo přesunout živé vysílání. Divák může pořad sledovat od začátku, i když se připojí později.</li>
+        <li><strong>Catch-up TV</strong> — Zpětné přehrávání pořadů, které již odvysílaly. Typicky 7–30 dní zpětně, záleží na poskytovateli a licenčních podmínkách.</li>
+        <li><strong>Network PVR (nPVR)</strong> — Nahrávání pořadů na serverech poskytovatele (v „cloudu") namísto lokálního pevného disku.</li>
+        <li><strong>Interaktivní služby</strong> — Hlasování, kvízy, nakupování přímo z televizní obrazovky, propojení se sociálními sítěmi.</li>
+        <li><strong>Multiscreen</strong> — Sledování obsahu na více zařízeních (telefon, tablet, počítač) pod jedním účtem.</li>
+      </ul>
+
+      <h2>IPTV v České republice</h2>
+
+      <p>V České republice nabízí IPTV služby několik významných poskytovatelů. Tato forma televizního příjmu zaznamenala v posledních letech výrazný růst a stala se jedním z nejpopulárnějších způsobů sledování televize v ČR.</p>
+
+      <h3>O2 TV</h3>
+      <p>O2 TV je jedním z předních poskytovatelů IPTV v ČR. Služba je provozována společností O2 Czech Republic a nabízí širokou programovou nabídku včetně HD kanálů, funkci zpětného přehrávání až 7 dní zpětně, nahrávání pořadů a sledování na více zařízeních. O2 TV funguje jak přes set-top box, tak přes aplikace pro chytré televize, mobilní zařízení a webový prohlížeč. Služba není nutně vázána na internetové připojení od O2.</p>
+
+      <h3>T-Mobile TV (Magenta TV)</h3>
+      <p>T-Mobile rovněž nabízí vlastní IPTV službu s podobným rozsahem funkcí. Služba zahrnuje lineární vysílání, VoD a zpětné přehrávání. K dispozici je na set-top boxu i v mobilních aplikacích.</p>
+
+      <h3>Sledovani.tv (KUKI)</h3>
+      <p>KUKI (dříve sledovani.tv) je nezávislá OTT platforma, která nabízí lineární televizní vysílání a catch-up TV přes internet. Služba funguje na řadě zařízení a není vázána na konkrétního poskytovatele internetu. Nabízí jednoduché uživatelské rozhraní a konkurenceschopné ceny.</p>
+
+      <h3>Telly (dříve Lepší.TV)</h3>
+      <p>Telly je další nezávislá platforma poskytující online televizní vysílání. Nabízí různé programové balíčky a podporuje sledování na více zařízeních současně.</p>
+
+      <div class="info-box tip">
+        <strong>IPTV vs. OTT — jaký je rozdíl?</strong>
+        <p>IPTV v technickém smyslu označuje službu provozovanou v řízené síti operátora, kde je garantována kvalita služby (QoS) — operátor může prioritizovat televizní provoz před ostatními daty. OTT (Over-The-Top) služby jako Netflix, Voyo nebo KUKI běží přes veřejný internet bez garance QoS. V praxi se však tyto pojmy často zaměňují a většina uživatelů vnímá obojí jako „televizi přes internet".</p>
+      </div>
+
+      <h3>Výhody IPTV</h3>
+      <ul>
+        <li>Obousměrná komunikace — umožňuje interaktivní služby (VoD, catch-up, nahrávání)</li>
+        <li>Široká programová nabídka včetně specializovaných kanálů</li>
+        <li>Nezávislost na geografické poloze — funguje všude s dostatečným internetovým připojením</li>
+        <li>Multiscreen — sledování na více zařízeních</li>
+        <li>Flexibilní programové balíčky</li>
+        <li>Moderní uživatelské rozhraní s vyhledáváním a doporučováním obsahu</li>
+      </ul>
+
+      <h3>Nevýhody IPTV</h3>
+      <ul>
+        <li>Nutnost dostatečně rychlého a stabilního internetového připojení (min. ~5 Mbit/s pro SD, ~15 Mbit/s pro HD, ~25 Mbit/s pro 4K)</li>
+        <li>Závislost na poskytovateli internetu — při výpadku internetu nefunguje ani televize</li>
+        <li>Měsíční poplatky</li>
+        <li>Potenciální latence a buffering při přetížení sítě</li>
+        <li>Spotřeba dat — při využití mobilních dat může být nákladné</li>
+        <li>Nutnost set-top boxu nebo kompatibilního zařízení</li>
+      </ul>
+
+      <div class="page-nav">
+        <a href="dvb-h.html">
+          <span class="label">← Předchozí</span>
+          <span class="title">DVB-H</span>
+        </a>
+        <a href="multiplexy.html" class="next">
+          <span class="label">Další →</span>
+          <span class="title">Multiplexy a síťové plány</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Semestrální projekt — LOOÚ — VŠB-TUO 2026</p>
+      <p>Autoři: Maxmilián Babic, Vojtěch Pizúr</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

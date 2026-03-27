@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DVB-T / DVB-T2 | Digitální televizní vysílání</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">📡</span> DTV Projekt
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Úvod</a></li>
+        <li class="nav-dropdown">
+          <a href="#">Technologie</a>
+          <div class="dropdown-menu">
+            <a href="dvb-t.html">DVB-T / DVB-T2</a>
+            <a href="dvb-s.html">DVB-S / DVB-S2</a>
+            <a href="dvb-c.html">DVB-C</a>
+            <a href="dvb-h.html">DVB-H</a>
+            <a href="iptv.html">IPTV</a>
+          </div>
+        </li>
+        <li><a href="multiplexy.html">Multiplexy</a></li>
+        <li><a href="srovnani.html">Srovnání</a></li>
+        <li><a href="nazor.html">Vlastní názor</a></li>
+        <li><a href="zdroje.html">Zdroje</a></li>
+      </ul>
+      <button class="nav-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+
+      <div class="page-header">
+        <div class="breadcrumb"><a href="index.html">Úvod</a> / Technologie / DVB-T / DVB-T2</div>
+        <h1>DVB-T a DVB-T2</h1>
+        <p class="subtitle">Terestrické (pozemní) digitální televizní vysílání</p>
+      </div>
+
+      <div class="spec-grid">
+        <div class="spec-item">
+          <div class="spec-label">Typ přenosu</div>
+          <div class="spec-value">Pozemní (terestrický)</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Modulace (T2)</div>
+          <div class="spec-value">COFDM / 256-QAM</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Šířka kanálu</div>
+          <div class="spec-value">8 MHz (v Evropě)</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Video kodek (T2)</div>
+          <div class="spec-value">H.265 / HEVC</div>
+        </div>
+      </div>
+
+      <h2>Princip fungování</h2>
+
+      <p>DVB-T (Digital Video Broadcasting — Terrestrial) je standard pro šíření digitálního televizního signálu prostřednictvím pozemních vysílačů. Princip je v zásadě stejný jako u původního analogového vysílání — signál je vysílán z vysílacích věží a přijímán pomocí běžné televizní antény. Zásadní rozdíl je však v tom, že signál je digitální, tedy zakódovaný do binární podoby, což přináší výrazně vyšší efektivitu využití frekvenčního pásma.</p>
+
+      <p>Základem technologie DVB-T je modulační schéma COFDM (Coded Orthogonal Frequency Division Multiplexing). Jedná se o metodu, při které je datový tok rozdělen do velkého množství úzkopásmových nosných frekvencí, které jsou vzájemně ortogonální. Díky tomu je signál velmi odolný vůči vícecestnému šíření a interferencím, které jsou typické pro pozemní příjem, zejména v městské zástavbě, kde se signál odráží od budov.</p>
+
+      <p>V systému DVB-T se typicky používá modulace QPSK, 16-QAM nebo 64-QAM. Vyšší řád modulace umožňuje přenést více dat, ale za cenu nižší odolnosti vůči šumu. Proto se volba modulace přizpůsobuje konkrétním podmínkám šíření v dané oblasti. Pro přenos videa se používá kompresní standard MPEG-2, případně MPEG-4 AVC (H.264) v novějších implementacích.</p>
+
+      <h2>DVB-T2 — druhá generace</h2>
+
+      <p>DVB-T2 je nástupcem původního DVB-T a přináší řadu podstatných vylepšení. Standard byl publikován v roce 2009 organizací ETSI a jeho hlavním cílem bylo dosáhnout vyšší přenosové kapacity při zachování stejné šířky frekvenčního kanálu. To umožňuje vysílat více programů v lepší kvalitě, včetně vysílání ve vysokém rozlišení (HD) a potenciálně i v ultra vysokém rozlišení (4K/UHD).</p>
+
+      <h3>Hlavní technické rozdíly oproti DVB-T</h3>
+
+      <p>DVB-T2 využívá pokročilejší modulační a kódovací techniky. Zatímco DVB-T používá konvoluční kódování s Viterbiho dekodérem, DVB-T2 přešel na kombinaci LDPC (Low Density Parity Check) a BCH (Bose-Chaudhuri-Hocquenghem) kódování, které dosahuje výrazně lepší chybové korekce. Díky tomu se blíží teoretickému Shannonovu limitu kapacity kanálu.</p>
+
+      <p>V oblasti modulace DVB-T2 přidává možnost použití 256-QAM, což oproti maximální 64-QAM u DVB-T zvyšuje spektrální účinnost. Nově byl také zaveden koncept PLP (Physical Layer Pipes), který umožňuje přenášet v rámci jednoho radiofrekvenčního kanálu více nezávislých datových toků s různými parametry přenosu. Například jeden PLP může být nastaven na robustnější modulaci pro mobilní příjem, zatímco jiný může využívat agresivnější modulaci s vyšší kapacitou pro stacionární příjem.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Parametr</th>
+              <th>DVB-T</th>
+              <th>DVB-T2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Modulace</td>
+              <td>QPSK, 16-QAM, 64-QAM</td>
+              <td>QPSK, 16-QAM, 64-QAM, 256-QAM</td>
+            </tr>
+            <tr>
+              <td>Kódování FEC</td>
+              <td>Konvoluční + Reed-Solomon</td>
+              <td>LDPC + BCH</td>
+            </tr>
+            <tr>
+              <td>Ochranný interval</td>
+              <td>1/4, 1/8, 1/16, 1/32</td>
+              <td>1/4, 19/256, 1/8, 19/128, 1/16, 1/32, 1/128</td>
+            </tr>
+            <tr>
+              <td>FFT</td>
+              <td>2K, 8K</td>
+              <td>1K, 2K, 4K, 8K, 16K, 32K</td>
+            </tr>
+            <tr>
+              <td>Max. přenosová rychlost</td>
+              <td>~31 Mbit/s</td>
+              <td>~50 Mbit/s</td>
+            </tr>
+            <tr>
+              <td>Video kodek</td>
+              <td>MPEG-2 / H.264</td>
+              <td>H.264 / H.265 (HEVC)</td>
+            </tr>
+            <tr>
+              <td>PLP (fyzické vrstvy)</td>
+              <td>Ne</td>
+              <td>Ano (až 256)</td>
+            </tr>
+            <tr>
+              <td>Rotovaná konstelace</td>
+              <td>Ne</td>
+              <td>Ano</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Frekvenční pásma</h2>
+
+      <p>Terestrické digitální vysílání v Evropě využívá především frekvenční pásmo UHF (Ultra High Frequency), konkrétně kanály 21 až 48, což odpovídá rozsahu frekvencí přibližně 470–694 MHz. Dříve se využívalo i pásmo do 862 MHz, avšak horní část byla postupně uvolněna v rámci digitálních dividend pro mobilní sítě.</p>
+
+      <p>V České republice bylo pásmo 800 MHz (kanály 61–69) uvolněno v rámci první digitální dividendy pro sítě LTE a následně pásmo 700 MHz (kanály 49–60) v rámci druhé digitální dividendy pro sítě 5G. To byl jeden z hlavních důvodů přechodu na DVB-T2 — bylo nutné „vtěsnat" stávající programovou nabídku do menšího frekvenčního rozsahu, což efektivnější DVB-T2 umožnil.</p>
+
+      <div class="info-box">
+        <strong>Jednofrekvenční sítě (SFN)</strong>
+        <p>Jednou z klíčových výhod digitálního terestrického vysílání je možnost provozu jednofrekvenčních sítí (Single Frequency Network). V SFN vysílá více vysílačů na stejné frekvenci synchronně stejný obsah. Přijímač dokáže signály z více vysílačů sečíst, což vede k lepšímu pokrytí. U analogového vysílání by stejná frekvence z více vysílačů způsobila rušení.</p>
+      </div>
+
+      <h2>Situace v České republice</h2>
+
+      <p>Česká republika zahájila pravidelné terestrické digitální vysílání v systému DVB-T v roce 2005. Zpočátku byl k dispozici omezený počet programů, postupně se ale programová nabídka rozšiřovala. V roce 2012 bylo na celém území ČR ukončeno analogové vysílání.</p>
+
+      <p>Přechod na DVB-T2 byl zahájen v roce 2020 a dokončen v roce 2021. Důvodem byla potřeba uvolnit frekvenční pásmo 700 MHz a zároveň modernizovat vysílací infrastrukturu. Nový standard DVB-T2 v kombinaci s kodekem HEVC (H.265) umožnil vysílat většinu programů v HD kvalitě. Pro diváky to znamenalo nutnost pořídit si nový přijímač (set-top box) nebo televizor s podporou DVB-T2 a HEVC.</p>
+
+      <p>Pokrytí signálem DVB-T2 zajišťuje v ČR primárně společnost České Radiokomunikace, a.s. (dnes CETIN), která provozuje síť vysílačů pokrývajících přibližně 95 % populace. Vysílací síť je organizována do několika multiplexů, o kterých pojednává samostatná stránka tohoto webu.</p>
+
+      <h3>Výhody DVB-T/T2</h3>
+      <ul>
+        <li>Bezplatný příjem — divák neplatí žádné měsíční poplatky (s výjimkou koncesionářského poplatku za ČT)</li>
+        <li>Široké pokrytí — signál pokrývá převážnou většinu území ČR</li>
+        <li>Jednoduchá instalace — stačí běžná televizní anténa a kompatibilní přijímač</li>
+        <li>Podpora HD vysílání (DVB-T2 s HEVC)</li>
+        <li>Možnost přenosného příjmu s pokojovou anténou</li>
+      </ul>
+
+      <h3>Nevýhody DVB-T/T2</h3>
+      <ul>
+        <li>Omezený počet programů ve srovnání se satelitem nebo IPTV</li>
+        <li>Kvalita příjmu závisí na poloze a terénu — v údolích nebo za kopci může být signál slabý</li>
+        <li>Nutnost přímé viditelnosti nebo dostatečného odrazu signálu od vysílače</li>
+        <li>Při přechodu na DVB-T2 bylo nutné vyměnit přijímací zařízení</li>
+        <li>Bez zpětného kanálu — jednosměrná komunikace (na rozdíl od IPTV)</li>
+      </ul>
+
+      <div class="page-nav">
+        <a href="index.html">
+          <span class="label">← Předchozí</span>
+          <span class="title">Úvod</span>
+        </a>
+        <a href="dvb-s.html" class="next">
+          <span class="label">Další →</span>
+          <span class="title">DVB-S / DVB-S2</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Semestrální projekt — LOOÚ — VŠB-TUO 2026</p>
+      <p>Autoři: Maxmilián Babic, Vojtěch Pizúr</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

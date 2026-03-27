@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DVB-H | Digitální televizní vysílání</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">📡</span> DTV Projekt
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Úvod</a></li>
+        <li class="nav-dropdown">
+          <a href="#">Technologie</a>
+          <div class="dropdown-menu">
+            <a href="dvb-t.html">DVB-T / DVB-T2</a>
+            <a href="dvb-s.html">DVB-S / DVB-S2</a>
+            <a href="dvb-c.html">DVB-C</a>
+            <a href="dvb-h.html">DVB-H</a>
+            <a href="iptv.html">IPTV</a>
+          </div>
+        </li>
+        <li><a href="multiplexy.html">Multiplexy</a></li>
+        <li><a href="srovnani.html">Srovnání</a></li>
+        <li><a href="nazor.html">Vlastní názor</a></li>
+        <li><a href="zdroje.html">Zdroje</a></li>
+      </ul>
+      <button class="nav-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+
+      <div class="page-header">
+        <div class="breadcrumb"><a href="index.html">Úvod</a> / Technologie / DVB-H</div>
+        <h1>DVB-H</h1>
+        <p class="subtitle">Mobilní digitální televizní vysílání</p>
+      </div>
+
+      <div class="spec-grid">
+        <div class="spec-item">
+          <div class="spec-label">Typ přenosu</div>
+          <div class="spec-value">Mobilní / pozemní</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Základ</div>
+          <div class="spec-value">Vychází z DVB-T</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Klíčová technologie</div>
+          <div class="spec-value">Time-slicing</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Komerční úspěch</div>
+          <div class="spec-value">Minimální</div>
+        </div>
+      </div>
+
+      <h2>Princip DVB-H</h2>
+
+      <p>DVB-H (Digital Video Broadcasting — Handheld) je standard navržený speciálně pro příjem digitálního televizního vysílání na přenosných (mobilních) zařízeních, jako jsou mobilní telefony, tablety nebo kapesní přijímače. Standard vychází z DVB-T, ale přidává několik klíčových technologií, které řeší specifické požadavky mobilního příjmu — zejména nízkou spotřebu energie, odolnost vůči Dopplerovu efektu při pohybu přijímače a schopnost fungovat na menších displejích s nižším rozlišením.</p>
+
+      <p>Standard DVB-H byl publikován organizací ETSI v roce 2004 jako norma EN 302 304. Byl navržen jako doplněk ke stávajícím sítím DVB-T, přičemž signály DVB-H a DVB-T mohly být vysílány ve společném multiplexu na stejné frekvenci.</p>
+
+      <h2>Klíčové technologie</h2>
+
+      <h3>Time-slicing</h3>
+
+      <p>Nejdůležitější inovací DVB-H je technologie time-slicing (časové řezání). Princip spočívá v tom, že data pro jednotlivé televizní kanály nejsou vysílána kontinuálně, ale v krátkých dávkách (burstech) s vysokou přenosovou rychlostí, prokládaných přestávkami. Přijímač zapne svůj tuner a dekodér pouze na dobu příjmu burstu pro vybraný kanál a po zbytek času je v režimu spánku.</p>
+
+      <p>Díky time-slicingu může přijímač ušetřit přibližně 90–95 % energie, protože tuner je aktivní jen zlomek času. To je zásadní pro mobilní zařízení, kde je výdrž baterie kritickým parametrem. Zároveň může přijímač v době mezi bursty přepnout na jinou frekvenci a monitorovat kvalitu signálu z okolních vysílačů, což usnadňuje handover (přepínání) při pohybu uživatele.</p>
+
+      <h3>MPE-FEC (Multi-Protocol Encapsulation — Forward Error Correction)</h3>
+
+      <p>Druhou klíčovou technologií je MPE-FEC, která přidává další vrstvu ochrany proti chybám na úrovni IP datagramů. Používá Reed-Solomonovo kódování nad rámec běžného FEC kódování fyzické vrstvy DVB-T. To zvyšuje odolnost příjmu v mobilních podmínkách, kde je signál nestabilní kvůli pohybu přijímače, odrazům od budov a dalším vlivům.</p>
+
+      <h3>Režim 4K FFT</h3>
+
+      <p>DVB-H zavádí nový režim FFT (Fast Fourier Transform) o velikosti 4K (4096 nosných), který představuje kompromis mezi režimem 2K (vhodný pro mobilní příjem díky vyšší odolnosti vůči Dopplerovu posuvu) a režimem 8K (vhodný pro velké SFN sítě díky delšímu ochrannému intervalu). Režim 4K nabízí přijatelnou odolnost vůči Dopplerovu efektu a zároveň umožňuje budování jednofrekvenčních sítí se slušným dosahem.</p>
+
+      <h2>Proč se DVB-H neprosadil</h2>
+
+      <p>Navzdory technické propracovanosti se DVB-H komerčně téměř neprosadil. Existuje několik důvodů, proč tato technologie zůstala převážně jen na papíře nebo v pilotních projektech:</p>
+
+      <ul>
+        <li><strong>Konkurence mobilního internetu</strong> — Rozvoj sítí 3G a následně 4G/LTE umožnil streamování videa přímo přes mobilní datové připojení. Služby jako YouTube, Netflix nebo mobilní aplikace jednotlivých televizních stanic nabídly pohodlnější alternativu s mnohem širší nabídkou obsahu.</li>
+        <li><strong>Obchodní model</strong> — Nebylo jasné, kdo by měl provozovat a financovat DVB-H sítě. Mobilní operátoři se obávali investic do infrastruktury bez jistoty návratnosti a vysílatelé nechtěli financovat novou síť.</li>
+        <li><strong>Nedostatek koncových zařízení</strong> — Pouze velmi málo výrobců mobilních telefonů integrovalo DVB-H přijímač do svých přístrojů. Bez dostatečné nabídky zařízení nebylo možné vytvořit kritickou masu uživatelů.</li>
+        <li><strong>Regulatorní překážky</strong> — Přidělení vhodných frekvencí pro DVB-H bylo v řadě zemí komplikované.</li>
+        <li><strong>Změna chování uživatelů</strong> — Mobilní uživatelé preferují obsah na vyžádání (on-demand) před lineárním vysíláním. DVB-H nabízelo klasické lineární vysílání, zatímco internetové služby umožnily sledovat cokoli kdykoli.</li>
+      </ul>
+
+      <div class="info-box warning">
+        <strong>Konec DVB-H</strong>
+        <p>V roce 2012 Evropská komise oficiálně stáhla DVB-H ze seznamu doporučených standardů pro mobilní televizní vysílání v EU. Většina pilotních projektů byla ukončena a frekvence původně uvažované pro DVB-H byly přerozděleny pro jiné účely. Standard DVB-H je dnes považován za historicky zajímavý, ale komerčně neúspěšný pokus o mobilní televizní vysílání.</p>
+      </div>
+
+      <h2>Alternativy a nástupci</h2>
+
+      <p>Po neúspěchu DVB-H se koncept mobilní televize přesunul do jiné roviny. Namísto specializovaného broadcastového standardu se prosadily řešení založené na internetovém streamování přes mobilní sítě. Dnes je běžné sledovat televizní pořady na mobilních zařízeních prostřednictvím aplikací jako O2 TV, Voyo, Netflix, HBO Max nebo KUKI.</p>
+
+      <p>Zajímavým technologickým konceptem je také standard 5G Broadcast (na bázi LTE eMBMS / 5G Multicast-Broadcast Services), který umožňuje efektivní hromadnou distribuci audiovizuálního obsahu prostřednictvím mobilních sítí 5G. Na rozdíl od klasického streamingu, kde má každý uživatel vlastní datový tok (unicast), 5G Broadcast využívá multicastový přenos, čímž šetří kapacitu sítě při sledování populárního obsahu velkým počtem uživatelů současně.</p>
+
+      <p>Za zmínku stojí i technologie HbbTV (Hybrid Broadcast Broadband TV), která propojuje klasické televizní vysílání (DVB-T2, DVB-S2, DVB-C) s internetovým připojením přímo v televizoru. HbbTV umožňuje interaktivní služby, zpětné přehrávání pořadů (catch-up TV) a přístup k mediathékám přímo z prostředí televizního vysílání.</p>
+
+      <h3>Výhody DVB-H (teoretické)</h3>
+      <ul>
+        <li>Nízká spotřeba energie díky time-slicingu</li>
+        <li>Efektivní distribuce obsahu velkému počtu uživatelů (broadcast)</li>
+        <li>Nezatěžuje mobilní datové sítě</li>
+        <li>Optimalizováno pro příjem v pohybu</li>
+      </ul>
+
+      <h3>Nevýhody DVB-H</h3>
+      <ul>
+        <li>Komerčně neúspěšný — minimální nasazení</li>
+        <li>Pouze lineární vysílání (žádný VoD)</li>
+        <li>Nedostatek kompatibilních zařízení</li>
+        <li>Překonaný mobilním internetem a streamingem</li>
+        <li>Vysoké investice do infrastruktury bez jistoty návratnosti</li>
+      </ul>
+
+      <div class="page-nav">
+        <a href="dvb-c.html">
+          <span class="label">← Předchozí</span>
+          <span class="title">DVB-C</span>
+        </a>
+        <a href="iptv.html" class="next">
+          <span class="label">Další →</span>
+          <span class="title">IPTV</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Semestrální projekt — LOOÚ — VŠB-TUO 2026</p>
+      <p>Autoři: Maxmilián Babic, Vojtěch Pizúr</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

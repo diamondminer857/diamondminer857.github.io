@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DVB-S / DVB-S2 | Digitální televizní vysílání</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">📡</span> DTV Projekt
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Úvod</a></li>
+        <li class="nav-dropdown">
+          <a href="#">Technologie</a>
+          <div class="dropdown-menu">
+            <a href="dvb-t.html">DVB-T / DVB-T2</a>
+            <a href="dvb-s.html">DVB-S / DVB-S2</a>
+            <a href="dvb-c.html">DVB-C</a>
+            <a href="dvb-h.html">DVB-H</a>
+            <a href="iptv.html">IPTV</a>
+          </div>
+        </li>
+        <li><a href="multiplexy.html">Multiplexy</a></li>
+        <li><a href="srovnani.html">Srovnání</a></li>
+        <li><a href="nazor.html">Vlastní názor</a></li>
+        <li><a href="zdroje.html">Zdroje</a></li>
+      </ul>
+      <button class="nav-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+
+      <div class="page-header">
+        <div class="breadcrumb"><a href="index.html">Úvod</a> / Technologie / DVB-S / DVB-S2</div>
+        <h1>DVB-S a DVB-S2</h1>
+        <p class="subtitle">Satelitní digitální televizní vysílání</p>
+      </div>
+
+      <div class="spec-grid">
+        <div class="spec-item">
+          <div class="spec-label">Typ přenosu</div>
+          <div class="spec-value">Satelitní</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Modulace (S2)</div>
+          <div class="spec-value">8PSK / 16APSK / 32APSK</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Frekvenční pásmo</div>
+          <div class="spec-value">Ku-band (10,7–12,75 GHz)</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Video kodek</div>
+          <div class="spec-value">MPEG-4 / H.265</div>
+        </div>
+      </div>
+
+      <h2>Princip satelitního vysílání</h2>
+
+      <p>DVB-S (Digital Video Broadcasting — Satellite) je standard pro šíření digitálního televizního signálu prostřednictvím komunikačních družic. Základní princip spočívá v tom, že signál je vyslán z pozemní stanice (uplink) směrem k satelitu na geostacionární oběžné dráze ve výšce přibližně 35 786 km nad rovníkem. Satelit signál přijme, zesílí, převede na jinou frekvenci a vyšle zpět směrem k Zemi (downlink). Díky velké výšce oběžné dráhy pokrývá jeden satelit obrovské území — typicky celý kontinent nebo jeho podstatnou část.</p>
+
+      <p>Geostacionární satelity obíhají Zemi stejnou úhlovou rychlostí, jakou se Země otáčí kolem své osy, takže se z pohledu pozemního pozorovatele zdají být nehybné na jednom místě na obloze. To je klíčová vlastnost pro televizní příjem, protože satelitní parabola (dish anténa) může být namířena jedním směrem a nemusí se pohybovat.</p>
+
+      <p>Pro příjem satelitního signálu je zapotřebí parabolická anténa s konvertorem (LNB — Low Noise Block), který přijatý signál z pásma Ku (10,7–12,75 GHz) převede na nižší mezifrekvenční pásmo (950–2150 MHz) a přivede jej koaxiálním kabelem do satelitního přijímače (set-top boxu) nebo přímo do televizoru s vestavěným DVB-S/S2 tunerem.</p>
+
+      <h2>Technické parametry DVB-S</h2>
+
+      <p>Původní standard DVB-S, definovaný v normě ETSI EN 300 421, využívá modulaci QPSK (Quadrature Phase Shift Keying). QPSK přenáší 2 bity na symbol a je zvolen pro svou vysokou odolnost vůči šumu, což je důležité vzhledem k velkým vzdálenostem, které signál překonává (přes 70 000 km tam a zpět).</p>
+
+      <p>Pro opravu chyb se používá kombinace konvolučního kódování s Viterbiho dekodérem a Reed-Solomonova kódu. Toto dvoustupňové kódování zajišťuje spolehlivý příjem i při poměrně nízkém poměru signálu k šumu (SNR). Přenosová rychlost jednoho transpondéru se typicky pohybuje v rozmezí 27–45 Mbit/s v závislosti na šířce pásma transpondéru a nastavení kódového poměru.</p>
+
+      <h2>DVB-S2 — druhá generace</h2>
+
+      <p>DVB-S2, standardizovaný v roce 2005 (ETSI EN 302 307), přinesl výrazné zvýšení efektivity přenosu. Hlavní změny zahrnují zavedení pokročilého LDPC kódování v kombinaci s BCH kódem (stejně jako u DVB-T2) a rozšíření nabídky modulačních schémat o 8PSK, 16APSK a 32APSK.</p>
+
+      <p>Díky těmto vylepšením dosahuje DVB-S2 přibližně o 30 % vyšší přenosové kapacity při stejné šířce pásma a stejném výkonu vysílače ve srovnání s DVB-S. V praxi to znamená, že na jednom transpondéru lze přenášet více televizních programů, případně programy ve vyšší kvalitě (HD nebo UHD).</p>
+
+      <div class="info-box">
+        <strong>Adaptivní kódování a modulace (ACM)</strong>
+        <p>DVB-S2 zavádí koncept adaptivního kódování a modulace, který umožňuje dynamicky měnit parametry přenosu podle aktuálních podmínek přenosového kanálu. Při dobrém počasí a silném signálu může systém přepnout na agresivnější modulaci (32APSK) s vyšší přenosovou kapacitou. Za nepříznivých podmínek (např. při silném dešti, který způsobuje útlum signálu — tzv. rain fade) systém automaticky přepne na robustnější modulaci s nižší kapacitou, ale lepší odolností.</p>
+      </div>
+
+      <h3>Srovnání DVB-S a DVB-S2</h3>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Parametr</th>
+              <th>DVB-S</th>
+              <th>DVB-S2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Rok standardizace</td>
+              <td>1994</td>
+              <td>2005</td>
+            </tr>
+            <tr>
+              <td>Modulace</td>
+              <td>QPSK</td>
+              <td>QPSK, 8PSK, 16APSK, 32APSK</td>
+            </tr>
+            <tr>
+              <td>FEC kódování</td>
+              <td>Konvoluční + Reed-Solomon</td>
+              <td>LDPC + BCH</td>
+            </tr>
+            <tr>
+              <td>Spektrální účinnost</td>
+              <td>až ~2 bit/s/Hz</td>
+              <td>až ~4 bit/s/Hz</td>
+            </tr>
+            <tr>
+              <td>Adaptivní modulace</td>
+              <td>Ne</td>
+              <td>Ano (ACM)</td>
+            </tr>
+            <tr>
+              <td>Zpětná kompatibilita</td>
+              <td>—</td>
+              <td>Ne (nutný nový přijímač)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Satelitní platformy v České republice</h2>
+
+      <p>V České republice jsou pro příjem satelitní televize nejvýznamnější dvě platformy, obě využívající družice na orbitální pozici 23,5° východně:</p>
+
+      <h3>Skylink</h3>
+      <p>Skylink je největší česko-slovenská satelitní platforma provozovaná společností M7 Group. Nabízí širokou škálu televizních programů včetně českých, slovenských a zahraničních kanálů v SD i HD kvalitě. Příjem je podmíněn použitím dekódovací karty (systém podmíněného přístupu Irdeto/Nagravision). Platforma využívá satelity Astra 3B na pozici 23,5°E.</p>
+
+      <h3>freeSAT</h3>
+      <p>freeSAT je bezplatná satelitní platforma, která umožňuje příjem vybraných českých a slovenských programů bez nutnosti měsíčních poplatků. Divák potřebuje pouze satelitní přijímač s aktivovanou kartou freeSAT. Platforma nabízí menší počet programů než Skylink, ale pro základní příjem je dostačující. Využívá stejnou orbitální pozici 23,5°E.</p>
+
+      <p>Kromě těchto dvou platforem mohou čeští diváci přijímat i volně vysílané (FTA — Free To Air) programy z mnoha dalších satelitů, například Astra 19,2°E (převážně německé programy), Hotbird 13°E (italské, polské a další programy) nebo Türksat 42°E.</p>
+
+      <h3>Výhody DVB-S/S2</h3>
+      <ul>
+        <li>Obrovský dosah — pokrytí celého kontinentu z jednoho satelitu</li>
+        <li>Velmi široká programová nabídka (stovky až tisíce kanálů)</li>
+        <li>Nezávislost na pozemní infrastruktuře — funguje i v odlehlých oblastech</li>
+        <li>Vysoká kvalita obrazu včetně HD a 4K/UHD</li>
+        <li>Stabilní příjem nezávislý na terénu (na rozdíl od DVB-T)</li>
+      </ul>
+
+      <h3>Nevýhody DVB-S/S2</h3>
+      <ul>
+        <li>Nutnost instalace parabolické antény (estetický i praktický problém, zejména v bytových domech)</li>
+        <li>Závislost na přímé viditelnosti satelitu — anténa musí „vidět" na jih bez překážek</li>
+        <li>Citlivost na silný déšť (rain fade) — při prudkém dešti může dojít k výpadku signálu</li>
+        <li>U placených platforem měsíční poplatky</li>
+        <li>Značné zpoždění signálu (~250 ms) kvůli velké vzdálenosti satelitu</li>
+        <li>Jednosměrná komunikace — bez zpětného kanálu</li>
+      </ul>
+
+      <div class="page-nav">
+        <a href="dvb-t.html">
+          <span class="label">← Předchozí</span>
+          <span class="title">DVB-T / DVB-T2</span>
+        </a>
+        <a href="dvb-c.html" class="next">
+          <span class="label">Další →</span>
+          <span class="title">DVB-C</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Semestrální projekt — LOOÚ — VŠB-TUO 2026</p>
+      <p>Autoři: Maxmilián Babič, Vojtěch Pizúr </p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

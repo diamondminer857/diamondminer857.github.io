@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Srovnání technologií | Digitální televizní vysílání</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">📡</span> DTV Projekt
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Úvod</a></li>
+        <li class="nav-dropdown">
+          <a href="#">Technologie</a>
+          <div class="dropdown-menu">
+            <a href="dvb-t.html">DVB-T / DVB-T2</a>
+            <a href="dvb-s.html">DVB-S / DVB-S2</a>
+            <a href="dvb-c.html">DVB-C</a>
+            <a href="dvb-h.html">DVB-H</a>
+            <a href="iptv.html">IPTV</a>
+          </div>
+        </li>
+        <li><a href="multiplexy.html">Multiplexy</a></li>
+        <li><a href="srovnani.html">Srovnání</a></li>
+        <li><a href="nazor.html">Vlastní názor</a></li>
+        <li><a href="zdroje.html">Zdroje</a></li>
+      </ul>
+      <button class="nav-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+
+      <div class="page-header">
+        <div class="breadcrumb"><a href="index.html">Úvod</a> / Srovnání technologií</div>
+        <h1>Srovnání technologií</h1>
+        <p class="subtitle">Komplexní porovnání DVB-T2, DVB-S2, DVB-C, DVB-H a IPTV</p>
+      </div>
+
+      <h2>Souhrnná srovnávací tabulka</h2>
+
+      <p>Následující tabulka shrnuje klíčové parametry a vlastnosti všech pěti technologií digitálního televizního vysílání, které jsou předmětem tohoto projektu. Pro DVB-T a DVB-S uvádíme parametry novějších verzí (DVB-T2 a DVB-S2), protože ty jsou v současnosti aktuální.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Parametr</th>
+              <th>DVB-T2</th>
+              <th>DVB-S2</th>
+              <th>DVB-C</th>
+              <th>DVB-H</th>
+              <th>IPTV</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Přenosové médium</td>
+              <td>Vzduch (pozemní)</td>
+              <td>Vzduch (satelit)</td>
+              <td>Koaxiální kabel</td>
+              <td>Vzduch (mobilní)</td>
+              <td>IP síť</td>
+            </tr>
+            <tr>
+              <td>Modulace</td>
+              <td>COFDM, až 256-QAM</td>
+              <td>QPSK, 8PSK, xAPSK</td>
+              <td>QAM (64/256)</td>
+              <td>COFDM (jako DVB-T)</td>
+              <td>N/A</td>
+            </tr>
+            <tr>
+              <td>FEC kódování</td>
+              <td>LDPC + BCH</td>
+              <td>LDPC + BCH</td>
+              <td>Reed-Solomon</td>
+              <td>Konvoluční + RS + MPE-FEC</td>
+              <td>N/A</td>
+            </tr>
+            <tr>
+              <td>Frekvenční pásmo</td>
+              <td>470–694 MHz (UHF)</td>
+              <td>10,7–12,75 GHz (Ku)</td>
+              <td>50–862 MHz</td>
+              <td>UHF / L-band</td>
+              <td>N/A</td>
+            </tr>
+            <tr>
+              <td>Přenosová rychlost</td>
+              <td>~40 Mbit/s (8 MHz kanál)</td>
+              <td>~45 Mbit/s (transpondér)</td>
+              <td>~51 Mbit/s (256-QAM)</td>
+              <td>~11 Mbit/s</td>
+              <td>Závisí na připojení</td>
+            </tr>
+            <tr>
+              <td>Typický počet programů</td>
+              <td>6–10 na MUX</td>
+              <td>10–20 na transpondér</td>
+              <td>Desítky–stovky</td>
+              <td>Jednotky</td>
+              <td>Stovky</td>
+            </tr>
+            <tr>
+              <td>Dosah</td>
+              <td>Regionální</td>
+              <td>Kontinentální</td>
+              <td>Lokální (kabelový rozvod)</td>
+              <td>Lokální (SFN)</td>
+              <td>Globální (internet)</td>
+            </tr>
+            <tr>
+              <td>Zpětný kanál</td>
+              <td>Ne</td>
+              <td>Ne</td>
+              <td>Ano (DOCSIS)</td>
+              <td>Ne</td>
+              <td>Ano</td>
+            </tr>
+            <tr>
+              <td>Interaktivní služby</td>
+              <td>Omezené (HbbTV)</td>
+              <td>Omezené</td>
+              <td>Částečné</td>
+              <td>Ne</td>
+              <td>Plné (VoD, catch-up...)</td>
+            </tr>
+            <tr>
+              <td>Potřebné vybavení</td>
+              <td>Anténa + přijímač/TV</td>
+              <td>Parabola + LNB + přijímač</td>
+              <td>Kabelová přípojka + STB</td>
+              <td>Mobilní zařízení s tunerem</td>
+              <td>Internet + STB/app</td>
+            </tr>
+            <tr>
+              <td>Poplatky</td>
+              <td>Zdarma</td>
+              <td>Zdarma / placené</td>
+              <td>Placené</td>
+              <td>Plánováno placené</td>
+              <td>Placené</td>
+            </tr>
+            <tr>
+              <td>Závislost na počasí</td>
+              <td>Minimální</td>
+              <td>Ano (rain fade)</td>
+              <td>Ne</td>
+              <td>Minimální</td>
+              <td>Ne</td>
+            </tr>
+            <tr>
+              <td>Aktuální stav v ČR</td>
+              <td><span class="tag green">Aktivní</span></td>
+              <td><span class="tag green">Aktivní</span></td>
+              <td><span class="tag orange">Ustupuje</span></td>
+              <td><span class="tag pink">Nepoužívá se</span></td>
+              <td><span class="tag green">Rostoucí</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Srovnání z pohledu diváka</h2>
+
+      <p>Pro běžného diváka je při výběru technologie příjmu televizního signálu rozhodující několik praktických faktorů: dostupnost v místě bydliště, programová nabídka, kvalita obrazu, cena a jednoduchost použití. Podívejme se na jednotlivé technologie z tohoto pohledu.</p>
+
+      <h3>Nejlevnější varianta — DVB-T2</h3>
+
+      <p>Pro diváky, kteří chtějí minimalizovat náklady, je DVB-T2 nejlepší volbou. Stačí pořídit anténu a kompatibilní přijímač (nebo televizor s DVB-T2 tunerem a HEVC dekodérem), a poté již nejsou žádné měsíční poplatky (pomineme-li povinný koncesionářský poplatek za Českou televizi). Programová nabídka je sice omezená na přibližně 20–30 programů, ale zahrnuje všechny hlavní české stanice.</p>
+
+      <h3>Nejširší programová nabídka — DVB-S2 nebo IPTV</h3>
+
+      <p>Pokud divák požaduje co nejširší nabídku programů, má na výběr mezi satelitním příjmem (DVB-S2) a IPTV. Satelitní platforma Skylink nabízí přes 150 televizních kanálů, a při použití motorového natáčení paraboly na různé satelity může být nabídka ještě větší. IPTV platformy jako O2 TV nebo KUKI nabízejí srovnatelný rozsah programů plus řadu doplňkových služeb (VoD, catch-up, nahrávání).</p>
+
+      <h3>Nejvíce interaktivní — IPTV</h3>
+
+      <p>IPTV je jedinou technologií z porovnávaných, která díky obousměrné komunikaci nabízí plnohodnotné interaktivní služby. Zpětné přehrávání pořadů, nahrávání do cloudu, video na vyžádání, sledování na více zařízeních — to jsou funkce, které ostatní technologie buď vůbec neumožňují, nebo jen v omezené míře (DVB-T2 s HbbTV nabízí některé z těchto funkcí za předpokladu, že je televizor připojen k internetu).</p>
+
+      <h3>Nejspolehlivější příjem — DVB-C</h3>
+
+      <p>Co se týče spolehlivosti příjmu, kabelové vysílání (DVB-C) je nejméně citlivé na vnější vlivy. Signál v kabelu není ovlivněn počasím, terénem ani interferencemi. Nevýhodou je však omezená dostupnost — kabelové rozvody existují především ve větších městech.</p>
+
+      <h2>Trendy a vývoj</h2>
+
+      <p>V současné době lze pozorovat jasný trend směrem k IPTV a OTT službám. Stále více domácností přechází od klasického lineárního televizního příjmu (ať už přes anténu, satelit nebo kabel) k internetovým platformám, které nabízejí větší flexibilitu a bohatší nabídku služeb.</p>
+
+      <p>Terestrické vysílání (DVB-T2) si však stále drží důležitou pozici jako bezplatný a univerzálně dostupný způsob příjmu. Satelitní vysílání (DVB-S2) zůstává relevantní pro diváky v oblastech se špatným pokrytím terestrickým signálem nebo bez dostatečně rychlého internetu. Kabelové vysílání (DVB-C) postupně ustupuje ve prospěch IPTV, protože mnozí kabeloví operátoři transformují své sítě na IP bázi. DVB-H je de facto mrtvá technologie, jejíž roli převzal mobilní streaming.</p>
+
+      <div class="info-box tip">
+        <strong>Hybridní přístup — HbbTV</strong>
+        <p>Zajímavým trendem je kombinace klasického broadcastového vysílání s internetovými službami prostřednictvím standardu HbbTV (Hybrid Broadcast Broadband TV). HbbTV umožňuje televizorům připojeným k internetu zobrazovat doplňkový interaktivní obsah nad rámec běžného vysílání — mediathéky, zpětné přehrávání, interaktivní EPG a další. V ČR podporují HbbTV všechny hlavní vysílatele (ČT, Nova, Prima).</p>
+      </div>
+
+      <div class="page-nav">
+        <a href="multiplexy.html">
+          <span class="label">← Předchozí</span>
+          <span class="title">Multiplexy a síťové plány</span>
+        </a>
+        <a href="nazor.html" class="next">
+          <span class="label">Další →</span>
+          <span class="title">Vlastní názor a závěr</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Semestrální projekt — LOOÚ — VŠB-TUO 2026</p>
+      <p>Autoři: Maxmilián Babic, Vojtěch Pizúr</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DVB-C | Digitální televizní vysílání</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">📡</span> DTV Projekt
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Úvod</a></li>
+        <li class="nav-dropdown">
+          <a href="#">Technologie</a>
+          <div class="dropdown-menu">
+            <a href="dvb-t.html">DVB-T / DVB-T2</a>
+            <a href="dvb-s.html">DVB-S / DVB-S2</a>
+            <a href="dvb-c.html">DVB-C</a>
+            <a href="dvb-h.html">DVB-H</a>
+            <a href="iptv.html">IPTV</a>
+          </div>
+        </li>
+        <li><a href="multiplexy.html">Multiplexy</a></li>
+        <li><a href="srovnani.html">Srovnání</a></li>
+        <li><a href="nazor.html">Vlastní názor</a></li>
+        <li><a href="zdroje.html">Zdroje</a></li>
+      </ul>
+      <button class="nav-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+
+      <div class="page-header">
+        <div class="breadcrumb"><a href="index.html">Úvod</a> / Technologie / DVB-C</div>
+        <h1>DVB-C</h1>
+        <p class="subtitle">Kabelové digitální televizní vysílání</p>
+      </div>
+
+      <div class="spec-grid">
+        <div class="spec-item">
+          <div class="spec-label">Typ přenosu</div>
+          <div class="spec-value">Kabelový</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Modulace</div>
+          <div class="spec-value">16 až 256-QAM</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Šířka kanálu</div>
+          <div class="spec-value">8 MHz</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Max. přenosová rychlost</div>
+          <div class="spec-value">~51 Mbit/s (256-QAM)</div>
+        </div>
+      </div>
+
+      <h2>Princip kabelového vysílání</h2>
+
+      <p>DVB-C (Digital Video Broadcasting — Cable) je standard určený pro distribuci digitálního televizního signálu prostřednictvím kabelových rozvodných sítí. Na rozdíl od terestrického nebo satelitního vysílání, kde se signál šíří volným prostorem, je kabelový signál veden fyzickým médiem — typicky koaxiálním kabelem nebo v moderních sítích kombinací optických vláken a koaxiálních kabelů (tzv. HFC — Hybrid Fibre-Coaxial).</p>
+
+      <p>Hlavní výhodou kabelového přenosu je kontrolované prostředí přenosového kanálu. Signál v kabelu není vystaven vlivům počasí, vícecestnému šíření ani interferencím od jiných vysílačů. Díky tomu je možné použít vyšší řády modulace a dosáhnout vyšší přenosové kapacity na jednotku frekvenčního spektra ve srovnání s terestrickým vysíláním.</p>
+
+      <h2>Technické parametry</h2>
+
+      <p>DVB-C používá jednodušší modulační schéma než DVB-T — jednonosnou modulaci QAM (Quadrature Amplitude Modulation) bez OFDM. To je možné právě díky kontrolovanému prostředí kabelu, kde není problém s vícecestným šířením signálu. Typicky se používá 64-QAM nebo 256-QAM, přičemž vyšší řád modulace poskytuje vyšší přenosovou rychlost.</p>
+
+      <p>Při použití 256-QAM v kanálu o šířce 8 MHz je možné dosáhnout přenosové rychlosti přibližně 51 Mbit/s, což je výrazně více než u DVB-T. Pro opravu chyb se používá Reed-Solomonovo kódování.</p>
+
+      <p>Existuje i novější verze standardu — DVB-C2 (definovaná v roce 2009), která přináší podobná vylepšení jako DVB-T2 oproti DVB-T: OFDM modulaci, LDPC + BCH kódování a vyšší spektrální účinnost. V praxi se však DVB-C2 příliš nerozšířil, protože kabeloví operátoři začali přecházet přímo na IPTV řešení.</p>
+
+      <div class="info-box">
+        <strong>HFC sítě</strong>
+        <p>Moderní kabelové sítě často využívají architekturu HFC (Hybrid Fibre-Coaxial). Optické vlákno se používá pro páteřní rozvod signálu od hlavní stanice k lokálním uzlům v jednotlivých čtvrtích či bytových domech. Z uzlu je signál distribuován koaxiálními kabely ke koncovým účastníkům. Tato architektura kombinuje výhody optického přenosu (vysoká kapacita, nízký útlum) s využitím stávajících koaxiálních rozvodů v budovách.</p>
+      </div>
+
+      <h2>DVB-C v České republice</h2>
+
+      <p>Kabelová televize má v České republice poměrně dlouhou historii. Ještě v éře analogového vysílání existovaly rozsáhlé kabelové rozvody, zejména ve větších městech a sídlištích. S nástupem digitalizace přešly kabelové sítě na standard DVB-C, který umožnil výrazně rozšířit programovou nabídku a zlepšit kvalitu obrazu.</p>
+
+      <p>Mezi nejvýznamnější poskytovatele kabelové televize v ČR patřily nebo patří společnosti jako Vodafone TV (dříve UPC, ještě dříve Karneval), O2 (v některých lokalitách) a řada regionálních kabelových operátorů. Je však třeba poznamenat, že mnozí z těchto operátorů postupně přecházejí na IPTV řešení a čistě kabelové DVB-C vysílání ustupuje do pozadí.</p>
+
+      <p>Kabelová televize je v ČR typicky dostupná především ve městech, kde existuje potřebná infrastruktura. Na venkově a v menších obcích je pokrytí kabelovými sítěmi minimální. Divák potřebuje k příjmu DVB-C signálu set-top box nebo televizor s vestavěným DVB-C tunerem a přípojku ke kabelové síti operátora.</p>
+
+      <h3>Programová nabídka</h3>
+
+      <p>Kabeloví operátoři typicky nabízejí programové balíčky s různým rozsahem a cenou. Základní balíček obsahuje české a slovenské programy, rozšířené balíčky pak zahraniční stanice, sportovní kanály, filmové kanály a další tematické programy. Oproti terestrickému vysílání je nabídka kabelové televize výrazně širší — běžně desítky až stovky programů.</p>
+
+      <h3>Výhody DVB-C</h3>
+      <ul>
+        <li>Vysoká přenosová kapacita — možnost přenosu velkého počtu programů</li>
+        <li>Stabilní a spolehlivý příjem nezávislý na počasí</li>
+        <li>Široká programová nabídka včetně HD kanálů</li>
+        <li>Možnost obousměrné komunikace (v kombinaci s datovými službami — internet přes kabel)</li>
+        <li>Nepotřebuje anténu ani satelitní parabolu</li>
+      </ul>
+
+      <h3>Nevýhody DVB-C</h3>
+      <ul>
+        <li>Nutnost fyzické přípojky — dostupnost omezena na lokality s kabelovými rozvody</li>
+        <li>Měsíční poplatky operátorovi</li>
+        <li>Omezená dostupnost na venkově a v menších obcích</li>
+        <li>Závislost na jednom poskytovateli (operátorovi kabelové sítě)</li>
+        <li>Postupný ústup ve prospěch IPTV řešení</li>
+      </ul>
+
+      <div class="page-nav">
+        <a href="dvb-s.html">
+          <span class="label">← Předchozí</span>
+          <span class="title">DVB-S / DVB-S2</span>
+        </a>
+        <a href="dvb-h.html" class="next">
+          <span class="label">Další →</span>
+          <span class="title">DVB-H</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Semestrální projekt — LOOÚ — VŠB-TUO 2026</p>
+      <p>Autoři: Maxmilián Babic, Vojtěch Pizúr</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

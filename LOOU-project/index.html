@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digitální televizní vysílání | Semestrální projekt</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">📡</span> DTV Projekt
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Úvod</a></li>
+        <li class="nav-dropdown">
+          <a href="#">Technologie</a>
+          <div class="dropdown-menu">
+            <a href="dvb-t.html">DVB-T / DVB-T2</a>
+            <a href="dvb-s.html">DVB-S / DVB-S2</a>
+            <a href="dvb-c.html">DVB-C</a>
+            <a href="dvb-h.html">DVB-H</a>
+            <a href="iptv.html">IPTV</a>
+          </div>
+        </li>
+        <li><a href="multiplexy.html">Multiplexy</a></li>
+        <li><a href="srovnani.html">Srovnání</a></li>
+        <li><a href="nazor.html">Vlastní názor</a></li>
+        <li><a href="zdroje.html">Zdroje</a></li>
+      </ul>
+      <button class="nav-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+
+      <section class="hero">
+        <span class="hero-badge">LOOÚ — Semestrální projekt 2026</span>
+        <h1>Digitální <span class="gradient-text">televizní vysílání</span></h1>
+        <p>Přehled technologií digitálního televizního vysílání, rozdělení multiplexů, síťové plány a srovnání standardů DVB-T, DVB-S, DVB-H, DVB-C a IPTV.</p>
+      </section>
+
+      <h2>Úvod do problematiky</h2>
+
+      <p>Digitální televizní vysílání představuje zásadní technologický přelom v oblasti šíření audiovizuálního obsahu. Oproti dříve používanému analogovému vysílání přináší celou řadu výhod — od výrazně lepší kvality obrazu a zvuku, přes efektivnější využití frekvenčního spektra, až po možnost přenosu doplňkových dat a interaktivních služeb. V dnešní době je digitální vysílání v České republice i ve většině vyspělých zemí světa standardem a analogové vysílání bylo prakticky zcela vypnuto.</p>
+
+      <p>Proces přechodu z analogového na digitální televizní vysílání, často označovaný jako „digitalizace" či „digitální switchover", probíhal v České republice postupně od roku 2005, kdy začalo pravidelné vysílání v systému DVB-T. Kompletní vypnutí analogového signálu na celém území ČR bylo dokončeno v roce 2012. Od roku 2020 pak Česká republika prošla další fází modernizace, kdy byl zahájen přechod z DVB-T na novější standard DVB-T2, který nabízí efektivnější kompresi a umožňuje vysílání ve vysokém rozlišení (HD).</p>
+
+      <p>V rámci tohoto projektu se zaměříme na jednotlivé technologie digitálního televizního vysílání, porovnáme je z technického i praktického hlediska a podíváme se na aktuální stav v České republice, zejména v kontextu multiplexů a síťových plánů.</p>
+
+      <h2>Přehled standardů DVB</h2>
+
+      <p>Rodina standardů DVB (Digital Video Broadcasting) byla vyvinuta konsorciem DVB Project, které bylo založeno v roce 1993 a sdružuje přes 200 organizací z celého světa. Pod záštitou evropského standardizačního institutu ETSI (European Telecommunications Standards Institute) vznikla celá řada specifikací pro různé způsoby distribuce digitálního televizního signálu. Každý z těchto standardů je přizpůsoben specifickým podmínkám přenosového prostředí — pozemnímu šíření, satelitnímu přenosu, kabelovým rozvodům nebo mobilnímu příjmu.</p>
+
+      <div class="card-grid">
+        <a href="dvb-t.html" class="card-link">
+          <div class="card">
+            <div class="card-icon cyan">📺</div>
+            <h3>DVB-T / DVB-T2</h3>
+            <p>Terestrické (pozemní) digitální vysílání. Nejrozšířenější způsob příjmu v ČR pomocí klasické antény.</p>
+          </div>
+        </a>
+        <a href="dvb-s.html" class="card-link">
+          <div class="card">
+            <div class="card-icon orange">🛰️</div>
+            <h3>DVB-S / DVB-S2</h3>
+            <p>Satelitní vysílání využívající geostacionární družice. Velký dosah a široká programová nabídka.</p>
+          </div>
+        </a>
+        <a href="dvb-c.html" class="card-link">
+          <div class="card">
+            <div class="card-icon purple">🔌</div>
+            <h3>DVB-C</h3>
+            <p>Kabelové vysílání prostřednictvím rozvodu koaxiálních nebo optických kabelů.</p>
+          </div>
+        </a>
+        <a href="dvb-h.html" class="card-link">
+          <div class="card">
+            <div class="card-icon green">📱</div>
+            <h3>DVB-H</h3>
+            <p>Standard pro mobilní příjem televizního signálu na přenosných zařízeních.</p>
+          </div>
+        </a>
+        <a href="iptv.html" class="card-link">
+          <div class="card">
+            <div class="card-icon pink">🌐</div>
+            <h3>IPTV</h3>
+            <p>Televizní vysílání přenášené prostřednictvím IP sítí (internet). Moderní alternativa klasického vysílání.</p>
+          </div>
+        </a>
+      </div>
+
+      <h2>Historický kontext v České republice</h2>
+
+      <p>Přechod na digitální televizní vysílání v ČR byl jedním z největších technologických projektů v oblasti telekomunikací. Celý proces koordinoval Český telekomunikační úřad (ČTÚ) ve spolupráci s Radou pro rozhlasové a televizní vysílání a Ministerstvem průmyslu a obchodu.</p>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">2005</div>
+          <p>Zahájení pravidelného digitálního terestrického vysílání v systému DVB-T na území České republiky.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2008–2012</div>
+          <p>Postupné vypínání analogového televizního signálu po jednotlivých regionech. Proces byl rozložen do několika etap s ohledem na připravenost obyvatelstva.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2012</div>
+          <p>Kompletní ukončení analogového televizního vysílání na celém území ČR. Veškerý televizní příjem přes pozemní vysílače je nadále pouze digitální.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2017</div>
+          <p>Rozhodnutí o uvolnění pásma 700 MHz pro mobilní sítě (tzv. „druhá digitální dividenda") a s tím související nutnost přechodu na DVB-T2.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2020–2021</div>
+          <p>Přechod z DVB-T na DVB-T2 s kodekem HEVC/H.265 a možností vysílání v HD kvalitě. Uvolnění pásma 700 MHz pro operátory 5G sítí.</p>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>Digitální dividenda</strong>
+        <p>Přechod z analogového na digitální vysílání umožnil výrazně efektivnější využití frekvenčního spektra. Uvolněné frekvence — tzv. „digitální dividenda" — byly následně přiděleny mobilním operátorům pro provoz sítí LTE (4G) a později 5G. V ČR šlo konkrétně o pásma 800 MHz (první dividenda) a 700 MHz (druhá dividenda).</p>
+      </div>
+
+      <h2>Struktura tohoto webu</h2>
+
+      <p>Na tomto webu naleznete podrobné informace o jednotlivých technologiích digitálního televizního vysílání. Každá technologie má svou vlastní stránku s popisem principu fungování, technickými parametry a situací v České republice. Dále se můžete podívat na stránku věnovanou multiplexům a síťovým plánům, souhrnné srovnání všech technologií a naše vlastní zhodnocení celé problematiky.</p>
+
+      <div class="page-nav">
+        <span></span>
+        <a href="dvb-t.html" class="next">
+          <span class="label">Další stránka →</span>
+          <span class="title">DVB-T / DVB-T2</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Semestrální projekt — Legislativa a ochrana osobních údajů v komunikacích (LOOÚ) — VŠB-TUO 2026</p>
+      <p>Autoři: Maxmilián Babic, Vojtěch Pizúr</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
