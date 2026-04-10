@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekt: Testy propustnosti sítě – LXC HTTP + Docker NFS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            line-height: 1.7;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #16213e;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            text-align: center;
+            color: #00d4ff;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            border-bottom: 2px solid #0f3460;
+            padding-bottom: 15px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7a7a9e;
+            font-size: 0.95em;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #00d4ff;
+            font-size: 1.4em;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            border-left: 4px solid #e94560;
+            padding-left: 12px;
+        }
+
+        h3 {
+            color: #c0c0e0;
+            font-size: 1.15em;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        ul li {
+            margin-bottom: 6px;
+        }
+
+        strong {
+            color: #f0f0f0;
+        }
+
+        code {
+            background-color: #0f3460;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #00d4ff;
+        }
+
+        pre {
+            background-color: #0a0a23;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            padding: 18px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85em;
+            line-height: 1.5;
+            margin-bottom: 18px;
+            color: #c8d6e5;
+        }
+
+        .screenshot {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .screenshot img {
+            max-width: 100%;
+            border: 2px solid #0f3460;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .screenshot p {
+            text-align: center;
+            color: #7a7a9e;
+            font-size: 0.9em;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.92em;
+        }
+
+        th {
+            background-color: #0f3460;
+            color: #00d4ff;
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #1a3a6e;
+        }
+
+        td {
+            padding: 10px 15px;
+            border: 1px solid #1a3a6e;
+            background-color: #1a1a3e;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #16213e;
+        }
+
+        .highlight {
+            color: #e94560;
+            font-weight: bold;
+        }
+
+        .info-box {
+            background-color: #0f3460;
+            border-left: 4px solid #00d4ff;
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+
+        .conclusion-box {
+            background-color: #0a2a1a;
+            border-left: 4px solid #00cc66;
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>Projekt: Testy propustnosti sítě – LXC HTTP + Docker NFS</h1>
+        <p class="subtitle">Předmět: Virtualizace 1 | Vypracoval: Maxmilián Babič</p>
+
+        <h2>1. Úvod a cíl projektu</h2>
+        <p>
+            Cílem tohoto projektu bylo navrhnout a otestovat infrastrukturu založenou na dvou typech systémových kontejnerů –
+            <strong>LXC/LXD</strong> a <strong>Docker</strong> – běžících na jednom hostitelském serveru s Ubuntu 24.04 LTS.
+            Projekt zkoumá propustnost sítě mezi kontejnery ve dvou scénářích:
+        </p>
+        <ul>
+            <li><strong>Scénář A (rozdělené služby):</strong> HTTP server (Apache) v LXC kontejneru servíruje soubory uložené na vzdáleném NFS úložišti v Docker kontejneru.</li>
+            <li><strong>Scénář B (vše na jednom kontejneru):</strong> HTTP server i soubory jsou lokálně v jednom LXC kontejneru bez použití NFS.</li>
+        </ul>
+        <p>
+            Součástí projektu jsou také testy výkonu CPU a paměti pomocí nástroje <code>sysbench</code>,
+            porovnání výkonu hostitelského systému a kontejneru, a popis možností škálování.
+        </p>
+
+        <h2>2. Architektura řešení</h2>
+        <p>
+            Celá infrastruktura běží na jednom hostitelském serveru. Kontejnery komunikují přes interní síťový bridge
+            <code>lxdbr0</code> na IPv6 síti <code>fd42:909c:d903:ecc7::/64</code>.
+        </p>
+        <h3>Scénář A – rozdělené služby</h3>
+        <ul>
+            <li><strong>LXC kontejner <code>http-server</code>:</strong> Ubuntu 24.04, Apache 2.4.58, paměťový limit 1 GB. Servíruje soubory z NFS mountu (<code>/var/www/html</code>).</li>
+            <li><strong>Docker kontejner <code>nfs-server</code>:</strong> Alpine Linux (itsthenetwork/nfs-server-alpine), exportuje adresář <code>/nfs-share</code> přes NFSv4.</li>
+        </ul>
+        <h3>Scénář B – vše na jednom kontejneru</h3>
+        <ul>
+            <li><strong>LXC kontejner <code>http-server</code>:</strong> Stejný kontejner, ale soubory jsou uloženy lokálně bez NFS.</li>
+        </ul>
+        <div class="info-box">
+            <strong>Síťové propojení:</strong> Komunikace probíhá přes IPv6 na interním bridge <code>lxdbr0</code>.
+            Host má adresu <code>fd42:909c:d903:ecc7::1</code>, LXC kontejner <code>fd42:909c:d903:ecc7:216:3eff:feee:7a19</code>.
+            Docker NFS server naslouchá na portu 2049 hostu.
+        </div>
+
+        <div class="screenshot">
+            <img src="containers.png" alt="Běžící kontejnery">
+            <p>Výpis běžících kontejnerů – LXC (http-server) a Docker (nfs-server).</p>
+        </div>
+
+        <h2>3. Parametry prostředí</h2>
+        <table>
+            <tr><th>Parametr</th><th>Hodnota</th></tr>
+            <tr><td>Hostitelský OS</td><td>Ubuntu 24.04.2 LTS (Noble Numbat)</td></tr>
+            <tr><td>Kernel</td><td>6.8.0-100-generic</td></tr>
+            <tr><td>CPU</td><td>2 vCPU</td></tr>
+            <tr><td>RAM (host)</td><td>1463 MB celkem</td></tr>
+            <tr><td>Disk</td><td>8.1 GB (LVM)</td></tr>
+            <tr><td>LXD verze</td><td>5.21.4 LTS (snap)</td></tr>
+            <tr><td>Docker verze</td><td>29.1.3</td></tr>
+            <tr><td>LXC kontejner – limit paměti</td><td>1 GB</td></tr>
+            <tr><td>LXC kontejner – využití paměti</td><td>~174 MB (při provozu Apache)</td></tr>
+            <tr><td>Docker kontejner – využití paměti</td><td>~28 MB (NFS server)</td></tr>
+        </table>
+
+        <h2>4. Postup realizace</h2>
+
+        <h3>A. Instalace LXD a Docker na hostu</h3>
+        <pre>sudo apt install -y docker.io
+sudo snap install lxd
+sudo lxd init --minimal</pre>
+
+        <h3>B. Vytvoření LXC kontejneru s HTTP serverem</h3>
+        <pre># Vytvoření kontejneru s paměťovým limitem 1 GB
+lxc launch ubuntu:24.04 http-server -c limits.memory=1GB
+
+# Instalace Apache uvnitř kontejneru
+lxc exec http-server -- bash -c "apt update && apt install -y apache2"
+
+# Povolení privilegovaného režimu pro NFS mount
+lxc config set http-server security.privileged true
+lxc config set http-server raw.apparmor "mount fstype=nfs*, mount fstype=rpc_pipefs,"
+lxc restart http-server
+
+# Override systemd služby Apache
+lxc exec http-server -- bash -c "mkdir -p /etc/systemd/system/apache2.service.d && \
+cat > /etc/systemd/system/apache2.service.d/override.conf << 'EOF'
+[Service]
+PrivateTmp=false
+ProtectSystem=false
+ProtectHome=false
+NoNewPrivileges=false
+EOF"
+lxc exec http-server -- systemctl daemon-reload
+lxc exec http-server -- systemctl start apache2</pre>
+
+        <h3>C. Spuštění Docker NFS serveru</h3>
+        <pre># Příprava sdíleného adresáře
+mkdir -p ~/nfs-data
+echo "Hello from NFS Docker container" > ~/nfs-data/index.html
+dd if=/dev/urandom of=~/nfs-data/testfile.bin bs=1M count=10
+
+# Spuštění NFS kontejneru
+docker run -d --name nfs-server \
+  --privileged \
+  -v ~/nfs-data:/nfs-share \
+  -e SHARED_DIRECTORY=/nfs-share \
+  -e PERMITTED="*" \
+  -p 2049:2049 \
+  itsthenetwork/nfs-server-alpine:latest</pre>
+
+        <h3>D. Propojení – NFS mount do LXC kontejneru</h3>
+        <pre># Instalace NFS klienta
+lxc exec http-server -- apt install -y nfs-common
+
+# Mount NFS share přes IPv6
+lxc exec http-server -- mount -t nfs4 -o nolock,vers=4.0 \
+  [fd42:909c:d903:ecc7::1]:/ /var/www/html
+
+# Ověření
+curl -6 http://[fd42:909c:d903:ecc7:216:3eff:feee:7a19]/
+# Výstup: Hello from NFS Docker container</pre>
+
+        <h2>5. Testy propustnosti a výkonu</h2>
+
+        <h3>A. Test propustnosti sítě – iperf3</h3>
+        <p>
+            Měření propustnosti síťového spojení mezi hostitelským systémem a LXC kontejnerem
+            přes interní bridge <code>lxdbr0</code>.
+        </p>
+        <pre># Server v kontejneru
+lxc exec http-server -- iperf3 -s -D
+
+# Klient na hostu
+iperf3 -c fd42:909c:d903:ecc7:216:3eff:feee:7a19 -t 10</pre>
+
+        <div class="screenshot">
+            <img src="iperf3.png" alt="Výstup iperf3 testu">
+            <p>Výstup testu propustnosti iperf3 – průměrná propustnost 25.8 Gbits/sec.</p>
+        </div>
+
+        <table>
+            <tr><th>Metrika</th><th>Hodnota</th></tr>
+            <tr><td>Průměrná propustnost</td><td class="highlight">25.8 Gbits/sec</td></tr>
+            <tr><td>Celkový přenos (10s)</td><td>30.0 GBytes</td></tr>
+            <tr><td>Retransmise</td><td>0</td></tr>
+        </table>
+
+        <div class="info-box">
+            Vysoká propustnost (25.8 Gbps) je očekávaná, protože oba endpointy běží na stejném hostu
+            a komunikují přes virtuální bridge – data neprocházejí fyzickým síťovým rozhraním.
+        </div>
+
+        <h3>B. HTTP benchmark – Apache Bench</h3>
+        <p>
+            Porovnání výkonu HTTP serveru při servírování 10 MB souboru ve dvou scénářích:
+            soubory na vzdáleném NFS úložišti vs. lokální úložiště.
+        </p>
+        <pre># Test (100 požadavků, 10 souběžně)
+ab -n 100 -c 10 http://[fd42:909c:d903:ecc7:216:3eff:feee:7a19]/testfile.bin</pre>
+
+        <div class="screenshot">
+            <img src="ab-nfs.png" alt="Apache Bench – NFS">
+            <p>Scénář A – HTTP benchmark se soubory na NFS úložišti.</p>
+        </div>
+
+        <div class="screenshot">
+            <img src="ab-local.png" alt="Apache Bench – lokální">
+            <p>Scénář B – HTTP benchmark se soubory na lokálním úložišti.</p>
+        </div>
+
+        <table>
+            <tr><th>Metrika</th><th>Scénář A – NFS</th><th>Scénář B – Lokální</th></tr>
+            <tr><td>Požadavky za sekundu</td><td>130.94 req/s</td><td>132.94 req/s</td></tr>
+            <tr><td>Přenosová rychlost</td><td>1,340,837 KB/s</td><td>1,361,339 KB/s</td></tr>
+            <tr><td>Průměrný čas požadavku</td><td>76.4 ms</td><td>75.2 ms</td></tr>
+            <tr><td>Medián (50 %)</td><td>73 ms</td><td>74 ms</td></tr>
+            <tr><td>Nejdelší požadavek</td><td>93 ms</td><td>83 ms</td></tr>
+            <tr><td>Neúspěšné požadavky</td><td>0</td><td>0</td></tr>
+        </table>
+
+        <div class="conclusion-box">
+            <strong>Závěr:</strong> Rozdíl mezi NFS a lokálním úložištěm je v tomto prostředí minimální (~1.5 %).
+            To je způsobeno tím, že NFS server běží na stejném hostu a komunikace probíhá přes loopback.
+            V reálném nasazení přes fyzickou síť by rozdíl byl výrazně větší kvůli síťové latenci.
+        </div>
+
+        <h3>C. Testy CPU – sysbench</h3>
+        <pre># CPU test (2 vlákna, prime 10000)
+sysbench cpu --threads=2 run
+
+# CPU test (2 vlákna, prime 20000)
+sysbench --test=cpu --cpu-max-prime=20000 --num-threads=2 run</pre>
+
+        <div class="screenshot">
+            <img src="host-cpu-10k.png" alt="Host CPU test prime 10000">
+            <p>Host – CPU test (prime 10000, 2 vlákna): 1859.56 events/s.</p>
+        </div>
+
+        <div class="screenshot">
+            <img src="host-cpu-20k.png" alt="Host CPU test prime 20000">
+            <p>Host – CPU test (prime 20000, 2 vlákna): 714.89 events/s.</p>
+        </div>
+
+        <div class="screenshot">
+            <img src="lxc-cpu-10k.png" alt="LXC CPU test prime 10000">
+            <p>LXC kontejner – CPU test (prime 10000, 2 vlákna): 1843.16 events/s.</p>
+        </div>
+
+        <div class="screenshot">
+            <img src="lxc-cpu-20k.png" alt="LXC CPU test prime 20000">
+            <p>LXC kontejner – CPU test (prime 20000, 2 vlákna): 712.11 events/s.</p>
+        </div>
+
+        <table>
+            <tr><th>Test</th><th>Host</th><th>LXC kontejner</th><th>Rozdíl</th></tr>
+            <tr><td>CPU events/s (prime 10000)</td><td>1859.56</td><td>1843.16</td><td>−0.9 %</td></tr>
+            <tr><td>CPU events/s (prime 20000)</td><td>714.89</td><td>712.11</td><td>−0.4 %</td></tr>
+            <tr><td>Latence avg (prime 10000)</td><td>1.07 ms</td><td>1.08 ms</td><td>+0.9 %</td></tr>
+            <tr><td>Latence avg (prime 20000)</td><td>2.80 ms</td><td>2.81 ms</td><td>+0.4 %</td></tr>
+        </table>
+
+        <h3>D. Testy paměti – sysbench</h3>
+        <pre># Paměťový test (1M bloky, 100 GB celkem)
+sysbench --test=memory --memory-block-size=1M --memory-total-size=100G --num-threads=1 run
+
+# Paměťový test (1K bloky, 100 GB celkem)
+sysbench --test=memory --memory-block-size=1K --memory-total-size=100G --num-threads=1 run
+
+# Paměťový test (4 vlákna)
+sysbench --test=memory --num-threads=4 run</pre>
+
+        <div class="screenshot">
+            <img src="host-mem-1m.png" alt="Host Memory test 1M">
+            <p>Host – paměťový test (1M bloky): 15,394 MiB/s.</p>
+        </div>
+
+        <div class="screenshot">
+            <img src="host-mem-1k.png" alt="Host Memory test 1K">
+            <p>Host – paměťový test (1K bloky): 4,113 MiB/s.</p>
+        </div>
+
+        <div class="screenshot">
+            <img src="host-mem-4t.png" alt="Host Memory test 4 threads">
+            <p>Host – paměťový test (4 vlákna): 3,815 MiB/s.</p>
+        </div>
+
+        <div class="screenshot">
+            <img src="lxc-mem-1m.png" alt="LXC Memory test 1M">
+            <p>LXC kontejner – paměťový test (1M bloky): 15,582 MiB/s.</p>
+        </div>
+
+        <div class="screenshot">
+            <img src="lxc-mem-1k.png" alt="LXC Memory test 1K">
+            <p>LXC kontejner – paměťový test (1K bloky): 4,103 MiB/s.</p>
+        </div>
+
+        <div class="screenshot">
+            <img src="lxc-mem-4t.png" alt="LXC Memory test 4 threads">
+            <p>LXC kontejner – paměťový test (4 vlákna): 3,960 MiB/s.</p>
+        </div>
+
+        <table>
+            <tr><th>Test</th><th>Host</th><th>LXC kontejner</th><th>Rozdíl</th></tr>
+            <tr><td>Memory 1M blok (MiB/s)</td><td>15,394</td><td>15,582</td><td>+1.2 %</td></tr>
+            <tr><td>Memory 1K blok (MiB/s)</td><td>4,113</td><td>4,103</td><td>−0.2 %</td></tr>
+            <tr><td>Memory 4 vlákna (MiB/s)</td><td>3,815</td><td>3,960</td><td>+3.8 %</td></tr>
+        </table>
+
+        <div class="conclusion-box">
+            <strong>Závěr:</strong> Výkon CPU i paměti je v LXC kontejneru prakticky identický s hostem.
+            Rozdíly se pohybují v rozmezí ±1–4 %, což je v rámci běžné odchylky měření.
+            LXC kontejnery sdílejí kernel s hostem a nepřidávají virtualizační overhead –
+            na rozdíl od plné virtualizace (KVM, VMware), kde by rozdíl byl výraznější.
+        </div>
+
+        <h2>6. Sledování využití paměti</h2>
+        <p>
+            Dle zadání byl LXC kontejner omezen na maximálně 1 GB paměti.
+        </p>
+        <pre># Nastavený limit
+lxc config get http-server limits.memory   # 1GB
+
+# Využití paměti v kontejneru
+lxc exec http-server -- free -m            # total 953, used 30
+
+# Využití dle LXD
+lxc info http-server | grep -i memory      # 174.27MiB
+
+# Docker kontejner
+docker stats nfs-server --no-stream        # 27.87MiB</pre>
+
+        <div class="screenshot">
+            <img src="memory-limits.png" alt="Sledování paměti">
+            <p>Sledování využití paměti – LXC kontejner (limit 1 GB, využití 174 MB) a Docker NFS server (28 MB).</p>
+        </div>
+
+        <table>
+            <tr><th>Kontejner</th><th>Limit</th><th>Aktuální využití</th></tr>
+            <tr><td>LXC http-server</td><td>1 GB</td><td>174 MB</td></tr>
+            <tr><td>Docker nfs-server</td><td>bez limitu (host max)</td><td>28 MB</td></tr>
+        </table>
+
+        <h2>7. Možnosti škálování výkonu</h2>
+
+        <h3>LXC/LXD kontejnery</h3>
+        <p>LXD umožňuje dynamicky měnit přidělené prostředky za běhu kontejneru:</p>
+        <pre># Změna limitu paměti
+lxc config set http-server limits.memory 2GB
+
+# Omezení počtu CPU jader
+lxc config set http-server limits.cpu 4
+
+# CPU priorita
+lxc config set http-server limits.cpu.priority 10</pre>
+
+        <h3>Docker kontejnery</h3>
+        <p>Docker podporuje dynamický update prostředků:</p>
+        <pre># Omezení paměti
+docker update --memory 1g --memory-swap 1g nfs-server
+
+# Omezení CPU
+docker update --cpus 2 nfs-server</pre>
+
+        <h3>Horizontální škálování</h3>
+        <p>
+            Pro zvýšení propustnosti v produkčním prostředí je možné nasadit více instancí HTTP serveru
+            za load balancer a sdílet NFS úložiště. Docker Compose nebo Kubernetes umožňují
+            automatické škálování počtu replik služby na základě zátěže.
+        </p>
+
+        <h2>8. Závěr</h2>
+        <p>
+            Projekt úspěšně demonstroval propojení dvou typů systémových kontejnerů (LXC/LXD a Docker)
+            s využitím síťového protokolu NFS pro sdílení souborů. Hlavní zjištění:
+        </p>
+        <ul>
+            <li><strong>Síťová propustnost</strong> mezi kontejnery na stejném hostu dosahuje 25.8 Gbps (přes virtuální bridge).</li>
+            <li><strong>HTTP výkon</strong> s NFS vs. lokálním úložištěm je téměř identický (~131 req/s) při nasazení na jednom hostu. V reálné síti by NFS přidávalo měřitelnou latenci.</li>
+            <li><strong>CPU a paměťový výkon</strong> LXC kontejneru je srovnatelný s hostem (rozdíl &lt;1 %), protože LXC sdílí kernel s hostem bez virtualizačního overheadu.</li>
+            <li><strong>Paměťový limit</strong> 1 GB byl úspěšně nastaven a ověřen, kontejner využíval ~174 MB při běžném provozu.</li>
+        </ul>
+
+        <div class="conclusion-box">
+            <strong>Celkový závěr:</strong> LXC kontejnery poskytují výkon velmi blízký nativnímu hostu,
+            zatímco Docker je ideální pro snadné nasazení izolovaných služeb.
+            Kombinace obou technologií umožňuje flexibilní a výkonnou infrastrukturu.
+            Skutečný dopad NFS na propustnost by se projevil až při oddělení služeb na fyzicky rozdílné servery.
+        </div>
+
+    </div>
+</body>
+</html>
