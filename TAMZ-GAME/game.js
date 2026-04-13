@@ -191,7 +191,6 @@ function create() {
     // text s kamerou pohyb
     scoreText.setScrollFactor(0);
     bestScoreText.setScrollFactor(0);
-    // kazdou sekundu sniz skore
     scoreTimer = this.time.addEvent({
         delay: 3000,
         callback: () => {

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CNB Converter</title>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+  <style>
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    ion-card {
+      margin-bottom: 12px;
+    }
+    .swap-row {
+      display: flex;
+      justify-content: center;
+      margin: 8px 0;
+    }
+    .swap-btn {
+      --border-radius: 50%;
+      width: 40px;
+      height: 40px;
+    }
+    .currency-list {
+      max-height: 180px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-top: 4px;
+    }
+    .currency-item {
+      padding: 10px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+    .currency-item:hover {
+      background-color: #f0f0f0;
+    }
+    .currency-item.selected {
+      background-color: #3880ff;
+      color: white;
+    }
+    .info-text {
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <ion-app>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>CNB Converter</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <div class="container">
+
+        <!-- Nastavení -->
+        <ion-card>
+          <ion-card-content>
+            <ion-list lines="none">
+              <ion-item>
+                <ion-label>Language</ion-label>
+                <ion-select id="langSelect" value="cs" interface="popover">
+                  <ion-select-option value="cs">Čeština</ion-select-option>
+                  <ion-select-option value="en">English</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item>
+                <ion-label>Conversion Date</ion-label>
+                <ion-input id="dateInput" type="date" style="text-align: right;"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label>SSE mode</ion-label>
+                <ion-toggle id="sseToggle"></ion-toggle>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Konverze -->
+        <ion-card>
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-label position="stacked" id="topLabel">Czech Crowns (CZK)</ion-label>
+              <ion-input id="topInput" type="number" placeholder="Amount" value="100"></ion-input>
+            </ion-item>
+
+            <div class="swap-row">
+              <ion-button fill="clear" class="swap-btn" onclick="swapDirection()">
+                <ion-icon name="swap-vertical-outline"></ion-icon>
+              </ion-button>
+            </div>
+
+            <ion-item lines="none">
+              <ion-label position="stacked" id="bottomLabel">CUR</ion-label>
+              <ion-input id="bottomInput" type="number" placeholder="Amount"></ion-input>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Výběr měny -->
+        <ion-card>
+          <ion-card-content>
+            <ion-searchbar id="currencySearch" placeholder="Search currency..."></ion-searchbar>
+            <div class="currency-list" id="currencyList">
+              <p style="padding: 12px; color: #999;">Loading currencies...</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <p class="info-text" id="rateInfo"></p>
+        <p class="info-text" id="dateInfo"></p>
+        <p class="info-text" id="loadMethod"></p>
+
+      </div>
+    </ion-content>
+  </ion-app>
+
+  <script>
+    const API_URL = "http://linedu.vsb.cz/~mor03/TAMZ/cnb_json.php";
+
+    let currencies = [];
+    let selectedCurrency = null;
+    let currentLang = "cs";
+    let useSSE = false;
+    let eventSource = null;
+    // true = CZK -> CUR, false = CUR -> CZK
+    let direction = true;
+
+    window.addEventListener("load", function () {
+      loadData();
+
+      document.getElementById("langSelect").addEventListener("ionChange", function (e) {
+        currentLang = e.detail.value;
+        loadData();
+      });
+
+      document.getElementById("dateInput").addEventListener("ionChange", function () {
+        loadData();
+      });
+
+      document.getElementById("sseToggle").addEventListener("ionChange", function (e) {
+        useSSE = e.detail.checked;
+        loadData();
+      });
+
+      document.getElementById("topInput").addEventListener("ionInput", function () {
+        convertFromTop();
+      });
+
+      document.getElementById("bottomInput").addEventListener("ionInput", function () {
+        convertFromBottom();
+      });
+
+      document.getElementById("currencySearch").addEventListener("ionInput", function (e) {
+        renderCurrencyList(e.detail.value);
+      });
+    });
+
+    function loadData() {
+      if (useSSE) {
+        loadDataSSE();
+      } else {
+        loadDataJSON();
+      }
+    }
+
+    async function loadDataJSON() {
+      let url = API_URL + "?lang=" + currentLang;
+      const dateVal = document.getElementById("dateInput").value;
+      if (dateVal) url += "&date=" + dateVal;
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        processData(data);
+        document.getElementById("loadMethod").textContent = "Loaded via: JSON (fetch)";
+      } catch (error) {
+        console.error("Chyba pri nacitani:", error);
+      }
+    }
+
+    function loadDataSSE() {
+      if (eventSource) eventSource.close();
+
+      let url = API_URL + "?sse=y&lang=" + currentLang;
+      const dateVal = document.getElementById("dateInput").value;
+      if (dateVal) url += "&date=" + dateVal;
+
+      eventSource = new EventSource(url);
+      let sseData = "";
+
+      eventSource.onmessage = function (event) {
+        sseData += event.data;
+      };
+
+      eventSource.onerror = function () {
+        eventSource.close();
+        try {
+          const data = JSON.parse(sseData);
+          processData(data);
+          document.getElementById("loadMethod").textContent = "Loaded via: SSE (EventSource)";
+        } catch (e) {
+          console.error("Chyba SSE:", e);
+        }
+      };
+
+      eventSource.addEventListener("result", function (event) {
+        try {
+          const data = JSON.parse(event.data);
+          processData(data);
+          document.getElementById("loadMethod").textContent = "Loaded via: SSE (EventSource)";
+          eventSource.close();
+        } catch (e) {
+          console.error("Chyba SSE result:", e);
+        }
+      });
+    }
+
+    function processData(data) {
+      currencies = data.data || [];
+      document.getElementById("dateInfo").textContent =
+        "Date: " + (data.date || "N/A") + " | Order: " + (data.order || "N/A");
+
+      renderCurrencyList("");
+      document.getElementById("currencySearch").value = "";
+
+      if (selectedCurrency) {
+        const found = currencies.find(c => c.code === selectedCurrency.code);
+        if (found) {
+          selectedCurrency = found;
+          updateLabels();
+          convertFromTop();
+        }
+      }
+    }
+
+    function renderCurrencyList(filter) {
+      const list = document.getElementById("currencyList");
+      const filterLower = (filter || "").toLowerCase();
+
+      const filtered = currencies.filter(function (c) {
+        const text = c.country_label + " " + c.curr_label + " " + c.code;
+        return text.toLowerCase().includes(filterLower);
+      });
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<p style="padding: 12px; color: #999;">No currencies found.</p>';
+        return;
+      }
+
+      let html = "";
+      filtered.forEach(function (c) {
+        const isSelected = selectedCurrency && selectedCurrency.code === c.code;
+        const ratePerUnit = (parseFloat(c.rate) / parseFloat(c.unit)).toFixed(3);
+        html += '<div class="currency-item' + (isSelected ? ' selected' : '') + '" onclick="selectCurrency(\'' + c.code + '\')">';
+        html += c.code + " - " + c.country_label + ", " + c.curr_label + " (" + ratePerUnit + ")";
+        html += '</div>';
+      });
+
+      list.innerHTML = html;
+    }
+
+    function selectCurrency(code) {
+      selectedCurrency = currencies.find(c => c.code === code);
+      if (!selectedCurrency) return;
+
+      updateLabels();
+      convertFromTop();
+
+      const searchVal = document.getElementById("currencySearch").value;
+      renderCurrencyList(searchVal);
+    }
+
+    function updateLabels() {
+      if (!selectedCurrency) return;
+
+      const ratePerUnit = parseFloat(selectedCurrency.rate) / parseFloat(selectedCurrency.unit);
+
+      if (direction) {
+        document.getElementById("topLabel").textContent = "Czech Crowns (CZK)";
+        document.getElementById("bottomLabel").textContent = selectedCurrency.code;
+        document.getElementById("rateInfo").textContent =
+          "1 " + selectedCurrency.code + " = " + ratePerUnit.toFixed(4) + " CZK";
+      } else {
+        document.getElementById("topLabel").textContent = selectedCurrency.code;
+        document.getElementById("bottomLabel").textContent = "Czech Crowns (CZK)";
+        document.getElementById("rateInfo").textContent =
+          "1 CZK = " + (1 / ratePerUnit).toFixed(6) + " " + selectedCurrency.code;
+      }
+    }
+
+    function swapDirection() {
+      direction = !direction;
+
+      var topVal = document.getElementById("topInput").value;
+      var bottomVal = document.getElementById("bottomInput").value;
+      document.getElementById("topInput").value = bottomVal;
+      document.getElementById("bottomInput").value = topVal;
+
+      updateLabels();
+    }
+
+    function convertFromTop() {
+      if (!selectedCurrency) return;
+
+      const topVal = parseFloat(document.getElementById("topInput").value);
+      if (isNaN(topVal)) {
+        document.getElementById("bottomInput").value = "";
+        return;
+      }
+
+      const rate = parseFloat(selectedCurrency.rate);
+      const unit = parseFloat(selectedCurrency.unit);
+
+      let result;
+      if (direction) {
+        result = topVal * unit / rate;
+      } else {
+        result = topVal * rate / unit;
+      }
+
+      document.getElementById("bottomInput").value = result.toFixed(4);
+    }
+
+    function convertFromBottom() {
+      if (!selectedCurrency) return;
+
+      const bottomVal = parseFloat(document.getElementById("bottomInput").value);
+      if (isNaN(bottomVal)) {
+        document.getElementById("topInput").value = "";
+        return;
+      }
+
+      const rate = parseFloat(selectedCurrency.rate);
+      const unit = parseFloat(selectedCurrency.unit);
+
+      let result;
+      if (direction) {
+        result = bottomVal * rate / unit;
+      } else {
+        result = bottomVal * unit / rate;
+      }
+
+      document.getElementById("topInput").value = result.toFixed(4);
+    }
+  </script>
+</body>
+</html>
