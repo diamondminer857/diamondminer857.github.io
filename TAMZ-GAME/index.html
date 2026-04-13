@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+  Tento projekt je PWA (Progressive Web App). 
+  Service Worker (sw.js) je skript na pozadí, který:
+  1. Ukládá hru do mezipaměti (Cache) pro offline režim.
+  2. Zrychluje načítání tím, že nejdřív hledá soubory v zařízení.
+  3. Stará se o aktualizace. DŮLEŽITÉ: Pokud změníte kód (např. v game.js), 
+     nezapomeňte v souboru sw.js změnit i číslo verze (CACHE_N), aby 
+     si prohlížeč stáhl novou verzi.
+  Společne se soubory Manifest (manifest.json) a ikona (icon-512.png) je možné hru
+  nainstalovat na plochu např. mobilního zařízení jako samostatnou aplikaci.
+-->
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style type="text/css">
+    body {
+      margin: 0;
+      background-color: #000;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.88.2/dist/phaser.js"></script>
+  <script src="game.js"></script>
+  <!-- PWA: Odkaz na manifest.json s metadaty aplikace (jméno, ikony) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000">
+
+  <script>
+    // --- PWA KONFIGURACE ---
+    // Pro správnou funkčnost PWA je potřeba mít v kořenovém adresáři: 
+    // - manifest.json (nastavení aplikace)
+    // - sw.js (service worker pro offline režim)
+    // - icon-512.png (ikona aplikace)
+
+    if ('serviceWorker' in navigator) {
+      // Registrace Service Workera
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker registered', reg))
+          .catch(err => console.log('Service Worker registration failed', err));
+      });
+
+      // AKTUALIZAČNÍ MECHANISMUS:
+      // Pokud změníte kód hry (game.js), musíte v souboru sw.js zvýšit verzi (CACHE_N).
+      // Tento kód pak zajistí, že se hra po stažení nového sw.js okamžitě restartuje.
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          window.location.reload();
+          refreshing = true;
+        }
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <div id='game-container' style="width:100%; height:100%"></div>
+</body>
+
+</html>
